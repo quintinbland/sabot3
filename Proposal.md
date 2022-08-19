@@ -86,17 +86,27 @@ intentionally out of scope
 
 ### Activities
 
-* create a wallet using python web 3 for the bot
-* deploy a contract using a multisig wallet (gnossis)
-* cron and random trade direction for smart contract and calls smart contract
+* create a wallet using python web 3 for the bot (John)
+* deploy a contract using a multisig wallet (gnossis) (Kevin)
+* cron and random trade direction for smart contract and calls smart contract (John)
+* Prototype 0X filter for curve (Kevin - Priority B)
 * Test contract call curve contract to do a trade, where is curve on the test chain?
+    * find Curve / USDT / SUSD on test chain
     * mock curve?
+----- smart contract    
 * Clog Token
 * Smart contract exchange USDT for clog token
-* Smart contract to execute trades with curve
-* Prototype 0X filter for curve
+    * minting
+* Smart contract to execute trades with curve on chain
+   * foundation (Martin)
+      interface  (Martin)
+      library
+      static contract address
+      (open zeppeling proxy)
+------ 
 * Streamlit UI (MVP)
-    * web3 like experience (using your web3 wallet) - exchange usdt for token
+    * web3 like experience (using your web3 wallet) - exchange usdt for token (Quintin)
     * Graph of balances ( or other)
     * view filtered contract events - insight of what is happenning on-chain
+        * research getting events in 
 * Metamask integration - see token balance
