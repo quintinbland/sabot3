@@ -97,8 +97,13 @@ contract SaBot_DAO {
 // function Get Portfolio Value
 
 // NEXT TOPIC ----------------------------------------
+// create struct SabotSwapResult{
+//    bool swap_success,
+//    uint buy_currency_amount
+//}
+
 //SaBot trader section
-// function swap(sellToken address, sellToken amount, buyToken address)
+// function swap(sellToken address, sellToken amount, buyToken address) return (struct SabotSwapResult)
 //    a sabot buy event is when sellToken is USDT
 //    a sabot sell event is when sellToken is sUSD
 
@@ -106,7 +111,7 @@ contract SaBot_DAO {
 //      * check that there is enough sellToken balance available to do the swap
 //      * call curve to execute the swap (is the gas fee to call the curve function(s) covered by the gas fee used to call this function?)
 //      *   let's prototype this to determine how gas will be handled
-//      * emit a swap event
+//      * emit a swap even
 
 // helper method
 // get_balance(currency_address) // to get balance of USDT and sUSD
