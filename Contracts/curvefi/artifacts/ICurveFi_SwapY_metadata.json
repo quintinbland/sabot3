@@ -1,0 +1,167 @@
+{
+	"compiler": {
+		"version": "0.5.12+commit.7709ece9"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256[4]",
+						"name": "amounts",
+						"type": "uint256[4]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "min_mint_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "add_liquidity",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "int128",
+						"name": "i",
+						"type": "int128"
+					}
+				],
+				"name": "balances",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "uint256[4]",
+						"name": "amounts",
+						"type": "uint256[4]"
+					},
+					{
+						"internalType": "bool",
+						"name": "deposit",
+						"type": "bool"
+					}
+				],
+				"name": "calc_token_amount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "int128",
+						"name": "i",
+						"type": "int128"
+					}
+				],
+				"name": "coins",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256[4]",
+						"name": "min_amounts",
+						"type": "uint256[4]"
+					}
+				],
+				"name": "remove_liquidity",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256[4]",
+						"name": "amounts",
+						"type": "uint256[4]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "max_burn_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "remove_liquidity_imbalance",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "Interface for Curve.Fi swap contract for Y-pool.See original implementation in official repository: https://github.com/curvefi/curve-contract/blob/master/contracts/pools/y/StableSwapY.vy",
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_SwapY.sol": "ICurveFi_SwapY"
+		},
+		"evmVersion": "petersburg",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_SwapY.sol": {
+			"keccak256": "0x5e5ed5f48da009f3119d5fba3ca11630f520d9a9cb2d52d816ecf3e87e56261c",
+			"urls": [
+				"bzz-raw://5c395930d945a30345dcc2ad0bcd69f04ff6d3d2c07f85b702488255fd92e410",
+				"dweb:/ipfs/QmYFMTXVcDZV26szyenPsnyhEW4Gmi5HWs72pqaxywrZyJ"
+			]
+		}
+	},
+	"version": 1
+}

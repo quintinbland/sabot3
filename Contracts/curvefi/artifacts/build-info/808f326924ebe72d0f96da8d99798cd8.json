@@ -1,0 +1,575 @@
+{
+	"id": "808f326924ebe72d0f96da8d99798cd8",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.5.12",
+	"solcLongVersion": "0.5.12+commit.7709ece9",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_Minter.sol": {
+				"content": "pragma solidity ^0.5.12;\n\n/** \n * @dev Interface for Curve.Fi CRV minter contract.\n * @dev See original implementation in official repository:\n * https://github.com/curvefi/curve-dao-contracts/blob/master/contracts/Minter.vy\n */\n \ninterface ICurveFi_Minter {\n    function mint(address gauge_addr) external;\n    function mint_for(address gauge_addr, address _for) external;\n    function minted(address _for, address gauge_addr) external view returns(uint256);\n\n    function toggle_approve_mint(address minting_user) external;\n\n    function token() external view returns(address);\n}"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			}
+		}
+	},
+	"output": {
+		"contracts": {
+			"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_Minter.sol": {
+				"ICurveFi_Minter": {
+					"abi": [
+						{
+							"constant": false,
+							"inputs": [
+								{
+									"internalType": "address",
+									"name": "gauge_addr",
+									"type": "address"
+								}
+							],
+							"name": "mint",
+							"outputs": [],
+							"payable": false,
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
+						{
+							"constant": false,
+							"inputs": [
+								{
+									"internalType": "address",
+									"name": "gauge_addr",
+									"type": "address"
+								},
+								{
+									"internalType": "address",
+									"name": "_for",
+									"type": "address"
+								}
+							],
+							"name": "mint_for",
+							"outputs": [],
+							"payable": false,
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
+						{
+							"constant": true,
+							"inputs": [
+								{
+									"internalType": "address",
+									"name": "_for",
+									"type": "address"
+								},
+								{
+									"internalType": "address",
+									"name": "gauge_addr",
+									"type": "address"
+								}
+							],
+							"name": "minted",
+							"outputs": [
+								{
+									"internalType": "uint256",
+									"name": "",
+									"type": "uint256"
+								}
+							],
+							"payable": false,
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"constant": false,
+							"inputs": [
+								{
+									"internalType": "address",
+									"name": "minting_user",
+									"type": "address"
+								}
+							],
+							"name": "toggle_approve_mint",
+							"outputs": [],
+							"payable": false,
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
+						{
+							"constant": true,
+							"inputs": [],
+							"name": "token",
+							"outputs": [
+								{
+									"internalType": "address",
+									"name": "",
+									"type": "address"
+								}
+							],
+							"payable": false,
+							"stateMutability": "view",
+							"type": "function"
+						}
+					],
+					"devdoc": {
+						"details": "Interface for Curve.Fi CRV minter contract.See original implementation in official repository: https://github.com/curvefi/curve-dao-contracts/blob/master/contracts/Minter.vy",
+						"methods": {}
+					},
+					"evm": {
+						"assembly": "",
+						"bytecode": {
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"deployedBytecode": {
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"gasEstimates": null,
+						"legacyAssembly": null,
+						"methodIdentifiers": {
+							"mint(address)": "6a627842",
+							"mint_for(address,address)": "27f18ae3",
+							"minted(address,address)": "8b752bb0",
+							"toggle_approve_mint(address)": "dd289d60",
+							"token()": "fc0c546a"
+						}
+					},
+					"metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"gauge_addr\",\"type\":\"address\"}],\"name\":\"mint\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"gauge_addr\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_for\",\"type\":\"address\"}],\"name\":\"mint_for\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_for\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"gauge_addr\",\"type\":\"address\"}],\"name\":\"minted\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"minting_user\",\"type\":\"address\"}],\"name\":\"toggle_approve_mint\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"token\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Interface for Curve.Fi CRV minter contract.See original implementation in official repository: https://github.com/curvefi/curve-dao-contracts/blob/master/contracts/Minter.vy\",\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_Minter.sol\":\"ICurveFi_Minter\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_Minter.sol\":{\"keccak256\":\"0x61a0d1906924eef5663bef919befcb2eb409a70a9c57785ac212de3840609aa0\",\"urls\":[\"bzz-raw://73a1b7fd95be9e905967292c30be8a0e94c4be55fd0651f54bcb573cb894f44b\",\"dweb:/ipfs/QmeVNZsh8s4VBRHi29obn9DLG8xSRGVJDSXfC5W8PowVnM\"]}},\"version\":1}",
+					"userdoc": {
+						"methods": {}
+					}
+				}
+			}
+		},
+		"sources": {
+			"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_Minter.sol": {
+				"ast": {
+					"absolutePath": "Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_Minter.sol",
+					"exportedSymbols": {
+						"ICurveFi_Minter": [
+							33
+						]
+					},
+					"id": 34,
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								"^",
+								"0.5",
+								".12"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "0:24:0"
+						},
+						{
+							"baseContracts": [],
+							"contractDependencies": [],
+							"contractKind": "interface",
+							"documentation": "@dev Interface for Curve.Fi CRV minter contract.\n@dev See original implementation in official repository:\nhttps://github.com/curvefi/curve-dao-contracts/blob/master/contracts/Minter.vy",
+							"fullyImplemented": false,
+							"id": 33,
+							"linearizedBaseContracts": [
+								33
+							],
+							"name": "ICurveFi_Minter",
+							"nodeType": "ContractDefinition",
+							"nodes": [
+								{
+									"body": null,
+									"documentation": null,
+									"id": 6,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "mint",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 4,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 3,
+												"name": "gauge_addr",
+												"nodeType": "VariableDeclaration",
+												"scope": 6,
+												"src": "277:18:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 2,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "277:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "276:20:0"
+									},
+									"returnParameters": {
+										"id": 5,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "305:0:0"
+									},
+									"scope": 33,
+									"src": "263:43:0",
+									"stateMutability": "nonpayable",
+									"superFunction": null,
+									"visibility": "external"
+								},
+								{
+									"body": null,
+									"documentation": null,
+									"id": 13,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "mint_for",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 11,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 8,
+												"name": "gauge_addr",
+												"nodeType": "VariableDeclaration",
+												"scope": 13,
+												"src": "329:18:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 7,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "329:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 10,
+												"name": "_for",
+												"nodeType": "VariableDeclaration",
+												"scope": 13,
+												"src": "349:12:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 9,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "349:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "328:34:0"
+									},
+									"returnParameters": {
+										"id": 12,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "371:0:0"
+									},
+									"scope": 33,
+									"src": "311:61:0",
+									"stateMutability": "nonpayable",
+									"superFunction": null,
+									"visibility": "external"
+								},
+								{
+									"body": null,
+									"documentation": null,
+									"id": 22,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "minted",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 18,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 15,
+												"name": "_for",
+												"nodeType": "VariableDeclaration",
+												"scope": 22,
+												"src": "393:12:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 14,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "393:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 17,
+												"name": "gauge_addr",
+												"nodeType": "VariableDeclaration",
+												"scope": 22,
+												"src": "407:18:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 16,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "407:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "392:34:0"
+									},
+									"returnParameters": {
+										"id": 21,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 20,
+												"name": "",
+												"nodeType": "VariableDeclaration",
+												"scope": 22,
+												"src": "449:7:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 19,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "449:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "448:9:0"
+									},
+									"scope": 33,
+									"src": "377:81:0",
+									"stateMutability": "view",
+									"superFunction": null,
+									"visibility": "external"
+								},
+								{
+									"body": null,
+									"documentation": null,
+									"id": 27,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "toggle_approve_mint",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 25,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 24,
+												"name": "minting_user",
+												"nodeType": "VariableDeclaration",
+												"scope": 27,
+												"src": "493:20:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 23,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "493:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "492:22:0"
+									},
+									"returnParameters": {
+										"id": 26,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "523:0:0"
+									},
+									"scope": 33,
+									"src": "464:60:0",
+									"stateMutability": "nonpayable",
+									"superFunction": null,
+									"visibility": "external"
+								},
+								{
+									"body": null,
+									"documentation": null,
+									"id": 32,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "token",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 28,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "544:2:0"
+									},
+									"returnParameters": {
+										"id": 31,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 30,
+												"name": "",
+												"nodeType": "VariableDeclaration",
+												"scope": 32,
+												"src": "569:7:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 29,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "569:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "568:9:0"
+									},
+									"scope": 33,
+									"src": "530:48:0",
+									"stateMutability": "view",
+									"superFunction": null,
+									"visibility": "external"
+								}
+							],
+							"scope": 34,
+							"src": "231:349:0"
+						}
+					],
+					"src": "0:580:0"
+				},
+				"id": 0
+			}
+		}
+	}
+}

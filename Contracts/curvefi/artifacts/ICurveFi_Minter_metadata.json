@@ -1,0 +1,130 @@
+{
+	"compiler": {
+		"version": "0.5.12+commit.7709ece9"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "gauge_addr",
+						"type": "address"
+					}
+				],
+				"name": "mint",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "gauge_addr",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_for",
+						"type": "address"
+					}
+				],
+				"name": "mint_for",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_for",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "gauge_addr",
+						"type": "address"
+					}
+				],
+				"name": "minted",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "minting_user",
+						"type": "address"
+					}
+				],
+				"name": "toggle_approve_mint",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "token",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "Interface for Curve.Fi CRV minter contract.See original implementation in official repository: https://github.com/curvefi/curve-dao-contracts/blob/master/contracts/Minter.vy",
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_Minter.sol": "ICurveFi_Minter"
+		},
+		"evmVersion": "petersburg",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_Minter.sol": {
+			"keccak256": "0x61a0d1906924eef5663bef919befcb2eb409a70a9c57785ac212de3840609aa0",
+			"urls": [
+				"bzz-raw://73a1b7fd95be9e905967292c30be8a0e94c4be55fd0651f54bcb573cb894f44b",
+				"dweb:/ipfs/QmeVNZsh8s4VBRHi29obn9DLG8xSRGVJDSXfC5W8PowVnM"
+			]
+		}
+	},
+	"version": 1
+}

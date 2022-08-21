@@ -1,0 +1,186 @@
+{
+	"compiler": {
+		"version": "0.5.12+commit.7709ece9"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256[4]",
+						"name": "uamounts",
+						"type": "uint256[4]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "min_mint_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "add_liquidity",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "int128",
+						"name": "i",
+						"type": "int128"
+					}
+				],
+				"name": "coins",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "curve",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256[4]",
+						"name": "min_uamounts",
+						"type": "uint256[4]"
+					}
+				],
+				"name": "remove_liquidity",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256[4]",
+						"name": "uamounts",
+						"type": "uint256[4]"
+					},
+					{
+						"internalType": "uint256",
+						"name": "max_burn_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "remove_liquidity_imbalance",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "token",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "int128",
+						"name": "i",
+						"type": "int128"
+					}
+				],
+				"name": "underlying_coins",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "underlying_coins",
+				"outputs": [
+					{
+						"internalType": "address[4]",
+						"name": "",
+						"type": "address[4]"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "Interface for Curve.Fi deposit contract for Y-pool.See original implementation in official repository: https://github.com/curvefi/curve-contract/blob/master/contracts/pools/y/DepositY.vy",
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_DepositY.sol": "ICurveFi_DepositY"
+		},
+		"evmVersion": "petersburg",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_DepositY.sol": {
+			"keccak256": "0x726cab744d29f92cf90962481d835e4b66da2af9bd8c982e646c704523872d9e",
+			"urls": [
+				"bzz-raw://51fea6b25cb387bf1f2cd8cfd975a3e1d1b4a0405019539e803b82b853f56d9b",
+				"dweb:/ipfs/QmbAA8scXV8cTpsaz4Sro8deuwQEYzuGb9ywZe8jfCWNEK"
+			]
+		}
+	},
+	"version": 1
+}

@@ -1,0 +1,955 @@
+{
+	"id": "6353d1f52ff8e8e36a5f319ea98ad9d0",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.5.12",
+	"solcLongVersion": "0.5.12+commit.7709ece9",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/ICurveFi_DepositY.sol": {
+				"content": "pragma solidity ^0.5.12;\n\n/** \n * @dev Interface for Curve.Fi deposit contract for Y-pool.\n * @dev See original implementation in official repository:\n * https://github.com/curvefi/curve-contract/blob/master/contracts/pools/y/DepositY.vy\n */\ncontract ICurveFi_DepositY { \n    function add_liquidity(uint256[4] calldata uamounts, uint256 min_mint_amount) external;\n    function remove_liquidity(uint256 _amount, uint256[4] calldata min_uamounts) external;\n    function remove_liquidity_imbalance(uint256[4] calldata uamounts, uint256 max_burn_amount) external;\n\n    function coins(int128 i) external view returns (address);\n    function underlying_coins(int128 i) external view returns (address);\n    function underlying_coins() external view returns (address[4] memory);\n    function curve() external view returns (address);\n    function token() external view returns (address);\n\n}"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			}
+		}
+	},
+	"output": {
+		"contracts": {
+			"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/ICurveFi_DepositY.sol": {
+				"ICurveFi_DepositY": {
+					"abi": [
+						{
+							"constant": false,
+							"inputs": [
+								{
+									"internalType": "uint256[4]",
+									"name": "uamounts",
+									"type": "uint256[4]"
+								},
+								{
+									"internalType": "uint256",
+									"name": "min_mint_amount",
+									"type": "uint256"
+								}
+							],
+							"name": "add_liquidity",
+							"outputs": [],
+							"payable": false,
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
+						{
+							"constant": true,
+							"inputs": [
+								{
+									"internalType": "int128",
+									"name": "i",
+									"type": "int128"
+								}
+							],
+							"name": "coins",
+							"outputs": [
+								{
+									"internalType": "address",
+									"name": "",
+									"type": "address"
+								}
+							],
+							"payable": false,
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"constant": true,
+							"inputs": [],
+							"name": "curve",
+							"outputs": [
+								{
+									"internalType": "address",
+									"name": "",
+									"type": "address"
+								}
+							],
+							"payable": false,
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"constant": false,
+							"inputs": [
+								{
+									"internalType": "uint256",
+									"name": "_amount",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint256[4]",
+									"name": "min_uamounts",
+									"type": "uint256[4]"
+								}
+							],
+							"name": "remove_liquidity",
+							"outputs": [],
+							"payable": false,
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
+						{
+							"constant": false,
+							"inputs": [
+								{
+									"internalType": "uint256[4]",
+									"name": "uamounts",
+									"type": "uint256[4]"
+								},
+								{
+									"internalType": "uint256",
+									"name": "max_burn_amount",
+									"type": "uint256"
+								}
+							],
+							"name": "remove_liquidity_imbalance",
+							"outputs": [],
+							"payable": false,
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
+						{
+							"constant": true,
+							"inputs": [],
+							"name": "token",
+							"outputs": [
+								{
+									"internalType": "address",
+									"name": "",
+									"type": "address"
+								}
+							],
+							"payable": false,
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"constant": true,
+							"inputs": [
+								{
+									"internalType": "int128",
+									"name": "i",
+									"type": "int128"
+								}
+							],
+							"name": "underlying_coins",
+							"outputs": [
+								{
+									"internalType": "address",
+									"name": "",
+									"type": "address"
+								}
+							],
+							"payable": false,
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"constant": true,
+							"inputs": [],
+							"name": "underlying_coins",
+							"outputs": [
+								{
+									"internalType": "address[4]",
+									"name": "",
+									"type": "address[4]"
+								}
+							],
+							"payable": false,
+							"stateMutability": "view",
+							"type": "function"
+						}
+					],
+					"devdoc": {
+						"details": "Interface for Curve.Fi deposit contract for Y-pool.See original implementation in official repository: https://github.com/curvefi/curve-contract/blob/master/contracts/pools/y/DepositY.vy",
+						"methods": {}
+					},
+					"evm": {
+						"assembly": "",
+						"bytecode": {
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"deployedBytecode": {
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"gasEstimates": null,
+						"legacyAssembly": null,
+						"methodIdentifiers": {
+							"add_liquidity(uint256[4],uint256)": "029b2f34",
+							"coins(int128)": "23746eb8",
+							"curve()": "7165485d",
+							"remove_liquidity(uint256,uint256[4])": "7d49d875",
+							"remove_liquidity_imbalance(uint256[4],uint256)": "18a7bd76",
+							"token()": "fc0c546a",
+							"underlying_coins()": "fb6d3a89",
+							"underlying_coins(int128)": "b739953e"
+						}
+					},
+					"metadata": "{\"compiler\":{\"version\":\"0.5.12+commit.7709ece9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256[4]\",\"name\":\"uamounts\",\"type\":\"uint256[4]\"},{\"internalType\":\"uint256\",\"name\":\"min_mint_amount\",\"type\":\"uint256\"}],\"name\":\"add_liquidity\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"int128\",\"name\":\"i\",\"type\":\"int128\"}],\"name\":\"coins\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"curve\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"},{\"internalType\":\"uint256[4]\",\"name\":\"min_uamounts\",\"type\":\"uint256[4]\"}],\"name\":\"remove_liquidity\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256[4]\",\"name\":\"uamounts\",\"type\":\"uint256[4]\"},{\"internalType\":\"uint256\",\"name\":\"max_burn_amount\",\"type\":\"uint256\"}],\"name\":\"remove_liquidity_imbalance\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"token\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"int128\",\"name\":\"i\",\"type\":\"int128\"}],\"name\":\"underlying_coins\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"underlying_coins\",\"outputs\":[{\"internalType\":\"address[4]\",\"name\":\"\",\"type\":\"address[4]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Interface for Curve.Fi deposit contract for Y-pool.See original implementation in official repository: https://github.com/curvefi/curve-contract/blob/master/contracts/pools/y/DepositY.vy\",\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/ICurveFi_DepositY.sol\":\"ICurveFi_DepositY\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/ICurveFi_DepositY.sol\":{\"keccak256\":\"0x726cab744d29f92cf90962481d835e4b66da2af9bd8c982e646c704523872d9e\",\"urls\":[\"bzz-raw://51fea6b25cb387bf1f2cd8cfd975a3e1d1b4a0405019539e803b82b853f56d9b\",\"dweb:/ipfs/QmbAA8scXV8cTpsaz4Sro8deuwQEYzuGb9ywZe8jfCWNEK\"]}},\"version\":1}",
+					"userdoc": {
+						"methods": {}
+					}
+				}
+			}
+		},
+		"sources": {
+			"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/ICurveFi_DepositY.sol": {
+				"ast": {
+					"absolutePath": "Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/ICurveFi_DepositY.sol",
+					"exportedSymbols": {
+						"ICurveFi_DepositY": [
+							60
+						]
+					},
+					"id": 61,
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								"^",
+								"0.5",
+								".12"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "0:24:0"
+						},
+						{
+							"baseContracts": [],
+							"contractDependencies": [],
+							"contractKind": "contract",
+							"documentation": "@dev Interface for Curve.Fi deposit contract for Y-pool.\n@dev See original implementation in official repository:\nhttps://github.com/curvefi/curve-contract/blob/master/contracts/pools/y/DepositY.vy",
+							"fullyImplemented": false,
+							"id": 60,
+							"linearizedBaseContracts": [
+								60
+							],
+							"name": "ICurveFi_DepositY",
+							"nodeType": "ContractDefinition",
+							"nodes": [
+								{
+									"body": null,
+									"documentation": null,
+									"id": 10,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "add_liquidity",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 8,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 5,
+												"name": "uamounts",
+												"nodeType": "VariableDeclaration",
+												"scope": 10,
+												"src": "299:28:0",
+												"stateVariable": false,
+												"storageLocation": "calldata",
+												"typeDescriptions": {
+													"typeIdentifier": "t_array$_t_uint256_$4_calldata_ptr",
+													"typeString": "uint256[4]"
+												},
+												"typeName": {
+													"baseType": {
+														"id": 2,
+														"name": "uint256",
+														"nodeType": "ElementaryTypeName",
+														"src": "299:7:0",
+														"typeDescriptions": {
+															"typeIdentifier": "t_uint256",
+															"typeString": "uint256"
+														}
+													},
+													"id": 4,
+													"length": {
+														"argumentTypes": null,
+														"hexValue": "34",
+														"id": 3,
+														"isConstant": false,
+														"isLValue": false,
+														"isPure": true,
+														"kind": "number",
+														"lValueRequested": false,
+														"nodeType": "Literal",
+														"src": "307:1:0",
+														"subdenomination": null,
+														"typeDescriptions": {
+															"typeIdentifier": "t_rational_4_by_1",
+															"typeString": "int_const 4"
+														},
+														"value": "4"
+													},
+													"nodeType": "ArrayTypeName",
+													"src": "299:10:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_array$_t_uint256_$4_storage_ptr",
+														"typeString": "uint256[4]"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 7,
+												"name": "min_mint_amount",
+												"nodeType": "VariableDeclaration",
+												"scope": 10,
+												"src": "329:23:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 6,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "329:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "298:55:0"
+									},
+									"returnParameters": {
+										"id": 9,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "362:0:0"
+									},
+									"scope": 60,
+									"src": "276:87:0",
+									"stateMutability": "nonpayable",
+									"superFunction": null,
+									"visibility": "external"
+								},
+								{
+									"body": null,
+									"documentation": null,
+									"id": 19,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "remove_liquidity",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 17,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 12,
+												"name": "_amount",
+												"nodeType": "VariableDeclaration",
+												"scope": 19,
+												"src": "394:15:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 11,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "394:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 16,
+												"name": "min_uamounts",
+												"nodeType": "VariableDeclaration",
+												"scope": 19,
+												"src": "411:32:0",
+												"stateVariable": false,
+												"storageLocation": "calldata",
+												"typeDescriptions": {
+													"typeIdentifier": "t_array$_t_uint256_$4_calldata_ptr",
+													"typeString": "uint256[4]"
+												},
+												"typeName": {
+													"baseType": {
+														"id": 13,
+														"name": "uint256",
+														"nodeType": "ElementaryTypeName",
+														"src": "411:7:0",
+														"typeDescriptions": {
+															"typeIdentifier": "t_uint256",
+															"typeString": "uint256"
+														}
+													},
+													"id": 15,
+													"length": {
+														"argumentTypes": null,
+														"hexValue": "34",
+														"id": 14,
+														"isConstant": false,
+														"isLValue": false,
+														"isPure": true,
+														"kind": "number",
+														"lValueRequested": false,
+														"nodeType": "Literal",
+														"src": "419:1:0",
+														"subdenomination": null,
+														"typeDescriptions": {
+															"typeIdentifier": "t_rational_4_by_1",
+															"typeString": "int_const 4"
+														},
+														"value": "4"
+													},
+													"nodeType": "ArrayTypeName",
+													"src": "411:10:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_array$_t_uint256_$4_storage_ptr",
+														"typeString": "uint256[4]"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "393:51:0"
+									},
+									"returnParameters": {
+										"id": 18,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "453:0:0"
+									},
+									"scope": 60,
+									"src": "368:86:0",
+									"stateMutability": "nonpayable",
+									"superFunction": null,
+									"visibility": "external"
+								},
+								{
+									"body": null,
+									"documentation": null,
+									"id": 28,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "remove_liquidity_imbalance",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 26,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 23,
+												"name": "uamounts",
+												"nodeType": "VariableDeclaration",
+												"scope": 28,
+												"src": "495:28:0",
+												"stateVariable": false,
+												"storageLocation": "calldata",
+												"typeDescriptions": {
+													"typeIdentifier": "t_array$_t_uint256_$4_calldata_ptr",
+													"typeString": "uint256[4]"
+												},
+												"typeName": {
+													"baseType": {
+														"id": 20,
+														"name": "uint256",
+														"nodeType": "ElementaryTypeName",
+														"src": "495:7:0",
+														"typeDescriptions": {
+															"typeIdentifier": "t_uint256",
+															"typeString": "uint256"
+														}
+													},
+													"id": 22,
+													"length": {
+														"argumentTypes": null,
+														"hexValue": "34",
+														"id": 21,
+														"isConstant": false,
+														"isLValue": false,
+														"isPure": true,
+														"kind": "number",
+														"lValueRequested": false,
+														"nodeType": "Literal",
+														"src": "503:1:0",
+														"subdenomination": null,
+														"typeDescriptions": {
+															"typeIdentifier": "t_rational_4_by_1",
+															"typeString": "int_const 4"
+														},
+														"value": "4"
+													},
+													"nodeType": "ArrayTypeName",
+													"src": "495:10:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_array$_t_uint256_$4_storage_ptr",
+														"typeString": "uint256[4]"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 25,
+												"name": "max_burn_amount",
+												"nodeType": "VariableDeclaration",
+												"scope": 28,
+												"src": "525:23:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 24,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "525:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "494:55:0"
+									},
+									"returnParameters": {
+										"id": 27,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "558:0:0"
+									},
+									"scope": 60,
+									"src": "459:100:0",
+									"stateMutability": "nonpayable",
+									"superFunction": null,
+									"visibility": "external"
+								},
+								{
+									"body": null,
+									"documentation": null,
+									"id": 35,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "coins",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 31,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 30,
+												"name": "i",
+												"nodeType": "VariableDeclaration",
+												"scope": 35,
+												"src": "580:8:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_int128",
+													"typeString": "int128"
+												},
+												"typeName": {
+													"id": 29,
+													"name": "int128",
+													"nodeType": "ElementaryTypeName",
+													"src": "580:6:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_int128",
+														"typeString": "int128"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "579:10:0"
+									},
+									"returnParameters": {
+										"id": 34,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 33,
+												"name": "",
+												"nodeType": "VariableDeclaration",
+												"scope": 35,
+												"src": "613:7:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 32,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "613:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "612:9:0"
+									},
+									"scope": 60,
+									"src": "565:57:0",
+									"stateMutability": "view",
+									"superFunction": null,
+									"visibility": "external"
+								},
+								{
+									"body": null,
+									"documentation": null,
+									"id": 42,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "underlying_coins",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 38,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 37,
+												"name": "i",
+												"nodeType": "VariableDeclaration",
+												"scope": 42,
+												"src": "653:8:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_int128",
+													"typeString": "int128"
+												},
+												"typeName": {
+													"id": 36,
+													"name": "int128",
+													"nodeType": "ElementaryTypeName",
+													"src": "653:6:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_int128",
+														"typeString": "int128"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "652:10:0"
+									},
+									"returnParameters": {
+										"id": 41,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 40,
+												"name": "",
+												"nodeType": "VariableDeclaration",
+												"scope": 42,
+												"src": "686:7:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 39,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "686:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "685:9:0"
+									},
+									"scope": 60,
+									"src": "627:68:0",
+									"stateMutability": "view",
+									"superFunction": null,
+									"visibility": "external"
+								},
+								{
+									"body": null,
+									"documentation": null,
+									"id": 49,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "underlying_coins",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 43,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "725:2:0"
+									},
+									"returnParameters": {
+										"id": 48,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 47,
+												"name": "",
+												"nodeType": "VariableDeclaration",
+												"scope": 49,
+												"src": "751:17:0",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_array$_t_address_$4_memory_ptr",
+													"typeString": "address[4]"
+												},
+												"typeName": {
+													"baseType": {
+														"id": 44,
+														"name": "address",
+														"nodeType": "ElementaryTypeName",
+														"src": "751:7:0",
+														"stateMutability": "nonpayable",
+														"typeDescriptions": {
+															"typeIdentifier": "t_address",
+															"typeString": "address"
+														}
+													},
+													"id": 46,
+													"length": {
+														"argumentTypes": null,
+														"hexValue": "34",
+														"id": 45,
+														"isConstant": false,
+														"isLValue": false,
+														"isPure": true,
+														"kind": "number",
+														"lValueRequested": false,
+														"nodeType": "Literal",
+														"src": "759:1:0",
+														"subdenomination": null,
+														"typeDescriptions": {
+															"typeIdentifier": "t_rational_4_by_1",
+															"typeString": "int_const 4"
+														},
+														"value": "4"
+													},
+													"nodeType": "ArrayTypeName",
+													"src": "751:10:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_array$_t_address_$4_storage_ptr",
+														"typeString": "address[4]"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "750:19:0"
+									},
+									"scope": 60,
+									"src": "700:70:0",
+									"stateMutability": "view",
+									"superFunction": null,
+									"visibility": "external"
+								},
+								{
+									"body": null,
+									"documentation": null,
+									"id": 54,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "curve",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 50,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "789:2:0"
+									},
+									"returnParameters": {
+										"id": 53,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 52,
+												"name": "",
+												"nodeType": "VariableDeclaration",
+												"scope": 54,
+												"src": "815:7:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 51,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "815:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "814:9:0"
+									},
+									"scope": 60,
+									"src": "775:49:0",
+									"stateMutability": "view",
+									"superFunction": null,
+									"visibility": "external"
+								},
+								{
+									"body": null,
+									"documentation": null,
+									"id": 59,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "token",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 55,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "843:2:0"
+									},
+									"returnParameters": {
+										"id": 58,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 57,
+												"name": "",
+												"nodeType": "VariableDeclaration",
+												"scope": 59,
+												"src": "869:7:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 56,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "869:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"value": null,
+												"visibility": "internal"
+											}
+										],
+										"src": "868:9:0"
+									},
+									"scope": 60,
+									"src": "829:49:0",
+									"stateMutability": "view",
+									"superFunction": null,
+									"visibility": "external"
+								}
+							],
+							"scope": 61,
+							"src": "242:639:0"
+						}
+					],
+					"src": "0:881:0"
+				},
+				"id": 0
+			}
+		}
+	}
+}
