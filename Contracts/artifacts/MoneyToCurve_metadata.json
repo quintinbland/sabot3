@@ -1,0 +1,507 @@
+{
+	"compiler": {
+		"version": "0.5.12+commit.7709ece9"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "previousOwner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipTransferred",
+				"type": "event"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "balanceOfAll",
+				"outputs": [
+					{
+						"internalType": "uint256[4]",
+						"name": "balances",
+						"type": "uint256[4]"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "curveFi_CRVMinter",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "curveFi_CRVToken",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "curveFi_Deposit",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "curveFi_LPGauge",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "curveFi_LPToken",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "curveFi_Swap",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "curveLPTokenBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "curveLPTokenStaked",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "curveLPTokenUnstaked",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_x",
+						"type": "uint256"
+					}
+				],
+				"name": "initialize",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "isOwner",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256[4]",
+						"name": "_amounts",
+						"type": "uint256[4]"
+					}
+				],
+				"name": "multiStepDeposit",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256[4]",
+						"name": "_amounts",
+						"type": "uint256[4]"
+					}
+				],
+				"name": "multiStepWithdraw",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "normalizedBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "renounceOwnership",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_depositContract",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_gaugeContract",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_minterContract",
+						"type": "address"
+					}
+				],
+				"name": "setup",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "x",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {
+				"isOwner()": {
+					"details": "Returns true if the caller is the current owner."
+				},
+				"multiStepDeposit(uint256[4])": {
+					"params": {
+						"_amounts": "Array of amounts for CurveFI stablecoins in pool (denormalized to token decimals)"
+					}
+				},
+				"multiStepWithdraw(uint256[4])": {
+					"params": {
+						"_amounts": "Array of amounts for CurveFI stablecoins in pool (denormalized to token decimals)"
+					}
+				},
+				"owner()": {
+					"details": "Returns the address of the current owner."
+				},
+				"renounceOwnership()": {
+					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner.     * NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
+				},
+				"setup(address,address,address)": {
+					"params": {
+						"_depositContract": "CurveFi Deposit contract for Y-pool",
+						"_gaugeContract": "CurveFi Gauge contract for Y-pool",
+						"_minterContract": "CurveFi CRV minter"
+					}
+				},
+				"transferOwnership(address)": {
+					"details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+				}
+			}
+		},
+		"userdoc": {
+			"methods": {
+				"balanceOfAll()": {
+					"notice": "Balances of stablecoins available for withdraw"
+				},
+				"curveLPTokenBalance()": {
+					"notice": "Get full amount of Curve LP tokens available for this contract"
+				},
+				"curveLPTokenStaked()": {
+					"notice": "Get amount of CurveFi LP tokens staked in the Gauge"
+				},
+				"curveLPTokenUnstaked()": {
+					"notice": "Get amount of unstaked CurveFi LP tokens (which lay on this contract)"
+				},
+				"multiStepDeposit(uint256[4])": {
+					"notice": "Deposits 4 stablecoins (registered in Curve.Fi Y pool)"
+				},
+				"multiStepWithdraw(uint256[4])": {
+					"notice": "Withdraws 4 stablecoins (registered in Curve.Fi Y pool)"
+				},
+				"normalizedBalance()": {
+					"notice": "Balances of stablecoins available for withdraw normalized to 18 decimals"
+				},
+				"setup(address,address,address)": {
+					"notice": "Set CurveFi contracts addresses"
+				}
+			}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/MoneyToCurve.sol": "MoneyToCurve"
+		},
+		"evmVersion": "petersburg",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/MoneyToCurve.sol": {
+			"keccak256": "0x291ca664060cfecc369f8ddb92fa2acc693b76281a40ea963217d9cc18799e0c",
+			"urls": [
+				"bzz-raw://5b47858612f1d800088248d9b38aacc7c4595ed90d9d28ec1b0a96440eff3731",
+				"dweb:/ipfs/QmQuX7h15oiWouiMhbyFcHMuD8RSAzrwq34pxnaQi9AZPA"
+			]
+		},
+		"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_DepositY.sol": {
+			"keccak256": "0x726cab744d29f92cf90962481d835e4b66da2af9bd8c982e646c704523872d9e",
+			"urls": [
+				"bzz-raw://51fea6b25cb387bf1f2cd8cfd975a3e1d1b4a0405019539e803b82b853f56d9b",
+				"dweb:/ipfs/QmbAA8scXV8cTpsaz4Sro8deuwQEYzuGb9ywZe8jfCWNEK"
+			]
+		},
+		"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_Gauge.sol": {
+			"keccak256": "0xa2896f850a80a13f330e06cd808eca2d99f7815d0f203c03942c548ffdc1f375",
+			"urls": [
+				"bzz-raw://4f0bf1da365395527e16f10670a68d72c5805becd05e4561ffd6d0919a5135a2",
+				"dweb:/ipfs/QmYK3adWE3rTmzWvCkrK6rmdipGAWQFgL665YfQhQZDa9D"
+			]
+		},
+		"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_Minter.sol": {
+			"keccak256": "0x61a0d1906924eef5663bef919befcb2eb409a70a9c57785ac212de3840609aa0",
+			"urls": [
+				"bzz-raw://73a1b7fd95be9e905967292c30be8a0e94c4be55fd0651f54bcb573cb894f44b",
+				"dweb:/ipfs/QmeVNZsh8s4VBRHi29obn9DLG8xSRGVJDSXfC5W8PowVnM"
+			]
+		},
+		"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/ICurveFi_SwapY.sol": {
+			"keccak256": "0x5e5ed5f48da009f3119d5fba3ca11630f520d9a9cb2d52d816ecf3e87e56261c",
+			"urls": [
+				"bzz-raw://5c395930d945a30345dcc2ad0bcd69f04ff6d3d2c07f85b702488255fd92e410",
+				"dweb:/ipfs/QmYFMTXVcDZV26szyenPsnyhEW4Gmi5HWs72pqaxywrZyJ"
+			]
+		},
+		"Users/yanickwilisky/Library/CloudStorage/GoogleDrive-yanickw@gmail.com/My Drive/09_Programming/FinTech_Workspace/sabot3/Contracts/curvefi/IYERC20.sol": {
+			"keccak256": "0x6b9a2bf14c31d708d73d44443ac9237957f3cf4caddc119eee9f0fc422fae0ee",
+			"urls": [
+				"bzz-raw://8223df809aa694148da8415c4676465f8b09d55f3f0fe1436e47d8b2b7e2229e",
+				"dweb:/ipfs/QmQYPusRFCaGexDr2Ufrv2icVpzD1jGr5uj7gi1sScDaDb"
+			]
+		},
+		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/GSN/Context.sol": {
+			"keccak256": "0x90a3995645af7562d84b9d69363ffa5ae7217714ab61e951bf7bc450f40e4061",
+			"urls": [
+				"bzz-raw://216ef9d6b614db4eb46970b4e84903f2534a45572dd30a79f0041f1a5830f436",
+				"dweb:/ipfs/QmNPrJ4MWKUAWzKXpUqeyKRUfosaoANZAqXgvepdrCwZAG"
+			]
+		},
+		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/math/SafeMath.sol": {
+			"keccak256": "0x640b6dee7a4b830bdfd52b5031a07fc2b12209f5b2e29e5d364a7d37f69d8076",
+			"urls": [
+				"bzz-raw://31113152e1ddb78fe7a4197f247591ca894e93f916867beb708d8e747b6cc74f",
+				"dweb:/ipfs/QmbZaJyXdpsYGykVhHH9qpVGQg9DGCxE2QufbCUy3daTgq"
+			]
+		},
+		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/ownership/Ownable.sol": {
+			"keccak256": "0x6fb9d7889769d7cc161225f9ef7a90e468ba9788b253816f8d8b6894d3472c24",
+			"urls": [
+				"bzz-raw://cf4c00fc3c37cc5acf0c82ec6fd97bab67d72c2567fdc0ebf023d9c09b30a08e",
+				"dweb:/ipfs/Qmb7TChG6DsEDX7LooJ4vmxot19f7VXX8S1zUGPeJTWbwZ"
+			]
+		},
+		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/token/ERC20/ERC20Detailed.sol": {
+			"keccak256": "0x4a3a810b7ebe742e897e1fd428b3eeed2196d3acea58eaf9c566ed10d545d2ed",
+			"urls": [
+				"bzz-raw://28d03f328e19e4099d5013de0649afaeaabac1a614e130767ab1cb4aca9775b6",
+				"dweb:/ipfs/Qmb9iW7yNuYehB2NfhRMs9TakqbLVQhBhmGMkaDZ5g1Eb4"
+			]
+		},
+		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/token/ERC20/IERC20.sol": {
+			"keccak256": "0xe5bb0f57cff3e299f360052ba50f1ea0fff046df2be070b6943e0e3c3fdad8a9",
+			"urls": [
+				"bzz-raw://59fd025151435da35faa8093a5c7a17de02de9d08ad27275c5cdf05050820d91",
+				"dweb:/ipfs/QmQMvwEcPhoRXzbXyrdoeRtvLoifUW9Qh7Luho7bmUPRkc"
+			]
+		},
+		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/token/ERC20/SafeERC20.sol": {
+			"keccak256": "0x6f2c9955d65c522b80f4b8792f076512d2df947d2112cbc4d98a4781ed42ede2",
+			"urls": [
+				"bzz-raw://7d8ec81683520c06baeef3f7e06cd82bd6fd5fa611f26857f475f6c829540aff",
+				"dweb:/ipfs/QmTDkFzKnrpiV1UKnSoiZAHPuguWzokrr4pFbSPvyaSo56"
+			]
+		},
+		"https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v2.5.0/contracts/utils/Address.sol": {
+			"keccak256": "0x1a8e5072509c5ea7365eb1d48030b9be865140c8fb779968da0a459a0e174a11",
+			"urls": [
+				"bzz-raw://03335b7b07c7c8c8d613cfdd8ec39a0b5ec133ee510bf2fe6cc5a496767bef4b",
+				"dweb:/ipfs/Qmebp4nzPja645c9yXSdJkGq96oU3am3LUnG2K3R7XxyKf"
+			]
+		},
+		"https://github.com/OpenZeppelin/openzeppelin-upgrades/blob/master/packages/core/contracts/Initializable.sol": {
+			"keccak256": "0x516c704636466430b300e9290312d225a3e23ac50096a74a80d7830f0701e361",
+			"urls": [
+				"bzz-raw://04be950324a573c0153167098bfda7e171c1167fd4ee82a8f62a134f2b35806e",
+				"dweb:/ipfs/QmRg3kFLFTeCFzmwvaT66cr4g9KUfihQm7U4h8XKxEis4D"
+			]
+		}
+	},
+	"version": 1
+}
