@@ -42,6 +42,26 @@ demo of calling contract method
 Demo of Curve mock contract
 Demo of wallet
 Demo of clog token and clog minter
-Demo of proof of concept on event listening
+* Demo of proof of concept on event listening
 Demo Skeleton of Staking UI
 Demo of architecture diagrams
+
+
+## Solution Components
+* CLOG ERC-20 token [DONE]
+* Curve Pool Mock contract [DONE]
+* POC to mint/burn CLOG [Quintin - In Progress] test and demo
+* POC to call Curve Pool Mock Contract [Yanick - In Progress]
+* Generate new wallet for bot using Python - [DONE]
+* Create test ISabotTrader test contract [John - In Progress]
+* POC to call swap method from python program using bot wallet [John - In Progress]
+* Create test multisig wallet using Gnossis [DONE]
+* Test multisig process [Kevin - in progress]
+* Create initial deployment contract [Kevin - in progress]
+* Create initial deployment contract [Kevin - in progress]
+* POC to deploy initial deployment contract using multisig wallet [Kevin - in progress]
+* POC to get events from proxied contract [Martin - in progress]
+* Update architecture diagrams [Martin - in progress]
+* SabotStaking base contract [Martin - in progress]
+* Deployment contract requirements [Martin - in progress]
+* 
