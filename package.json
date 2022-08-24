@@ -1,0 +1,7 @@
+{
+    "name": "sabot-staking-truffle-project",
+    "version": "0.0.1",
+    "devDependencies": {
+        "truffle": "^5.5.27"
+    }
+}
