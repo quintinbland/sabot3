@@ -1,5 +1,5 @@
 from web3 import Web3
-w3 = Web3(Web3.HTTPProvider('HTTP://127.0.0.1:8545'))
+w3 = Web3(Web3.HTTPProvider('HTTP://127.0.0.1:7545'))
 import time
 # import json
 # from pathlib import Path
@@ -16,8 +16,9 @@ def log_loop(event_filter, poll_interval):
 
 def main():
     # block_filter = w3.eth.filter('latest')
+    contract_address = '0xa1690E396fb8D71dbf50c28bDC7ea1D400D50e2a'
     event_filter = w3.eth.filter({"address": contract_address})
-    log_loop(block_filter, 2)
+    log_loop(event_filter, 2)
 
 if __name__ == '__main__':
     main()

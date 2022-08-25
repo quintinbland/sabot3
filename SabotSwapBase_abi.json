@@ -39,6 +39,11 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
 				"internalType": "uint256",
 				"name": "amount",
 				"type": "uint256"
@@ -57,6 +62,12 @@
 				"internalType": "uint256",
 				"name": "clogAmount",
 				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
 			}
 		],
 		"name": "Burned",
@@ -103,6 +114,11 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
 				"internalType": "uint256",
 				"name": "amount",
 				"type": "uint256"
@@ -121,6 +137,12 @@
 				"internalType": "uint256",
 				"name": "clogAmount",
 				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
 			}
 		],
 		"name": "Minted",
