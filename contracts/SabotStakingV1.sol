@@ -4,6 +4,7 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 // @TODO: use errors and revert instead of error messages
 
@@ -17,8 +18,8 @@ interface IClogStaking{
     function unstakeTokens(uint256 _amount) external;
     event Staking(address owner, address sellToken, uint256 sellTokenAmount, uint256 clogAmount);
     event Unstaked(address owner, address buyToken, uint256 buyTokenAmount, uint256 clogAmount);
-    event Minted(uint256 clogAmount, address owner);
-    event Burned(uint256 clogAmount, address owner);
+    event Minted(uint256 clogAmount, address owner, uint clogSupply);
+    event Burned(uint256 clogAmount, address owner, uint clogSupply);
 }
 
 interface ISabotTrader{
@@ -42,6 +43,7 @@ contract SabotStakingBase is AccessControlUpgradeable, ISabotTrader, IClogStakin
     address curvePoolAddr;
     mapping(address => int128) poolCoinIndex;
     address stakingToken;
+    address clogToken;
     // -- end V1.0.0 definitions
 
     constructor() {
@@ -71,9 +73,9 @@ contract SabotStakingBase is AccessControlUpgradeable, ISabotTrader, IClogStakin
     public
     {
         //TODO: IMPLEMENT
-
+        uint256 clogSupply = IERC20(clogToken).totalSupply();
         // ----
-        emit Minted(amount, to);
+        emit Minted(amount, to, clogSupply);
     }
 
     function burn_clog(address from, uint amount)
@@ -81,9 +83,9 @@ contract SabotStakingBase is AccessControlUpgradeable, ISabotTrader, IClogStakin
     public
     {
         //TODO: IMPLEMENT
-
+        uint256 clogSupply = IERC20(clogToken).totalSupply();
         // ----
-        emit Burned(amount, from);
+        emit Burned(amount, from, clogSupply);
     }
 
     function stakeTokens(uint256 _amount) 
