@@ -28,6 +28,9 @@ interface ISabotTrader{
     event SabotSwap(address indexed sellToken, uint sellTokenAmount, address buyToken, uint buyTokenAmount);
 }
 
+interface StableSwap {
+    function exchange(int128 i, int128 j, uint256 dx, uint256 min_dy) external;
+}
 
 contract SabotStakingBase is AccessControl, ISabotTrader, IClogStaking, IClogMinter {
 
@@ -38,6 +41,8 @@ contract SabotStakingBase is AccessControl, ISabotTrader, IClogStaking, IClogMin
     bytes32 public constant SABOT_BOT_ROLE = keccak256("SABOT_BOT_ROLE");
     bytes32 public constant CLOG_MINTER_ROLE = keccak256("CLOG_MINTER_ROLE");
     uint public balance;
+    address curvePoolAddr;
+    mapping(address => int128) poolCoinIndex;
     // -- end V1.0.0 definitions
 
     constructor() {
@@ -46,7 +51,7 @@ contract SabotStakingBase is AccessControl, ISabotTrader, IClogStaking, IClogMin
         _grantRole(CLOG_MINTER_ROLE, msg.sender);
     }
 
-    function swap(address sellToken, uint sellTokenAmount, address buyToken)
+    function swap(address sellToken, uint256 sellTokenAmount, address buyToken)
     onlyRole(SABOT_BOT_ROLE)
     public
     {
@@ -54,7 +59,11 @@ contract SabotStakingBase is AccessControl, ISabotTrader, IClogStaking, IClogMin
         //TODO: IMPLEMENT
         uint buyTokenAmount = 42;
         balance += buyTokenAmount;
-
+        int128 i = poolCoinIndex[sellToken];
+        int128 j = poolCoinIndex[buyToken];
+        uint256 dx = sellTokenAmount;
+        uint256 min_dy = 1;
+        StableSwap(curvePoolAddr).exchange(i, j, dx, min_dy);
         // ----
         emit SabotSwap(sellToken,sellTokenAmount,buyToken,buyTokenAmount);
     }
