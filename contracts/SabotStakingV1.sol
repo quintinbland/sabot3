@@ -102,7 +102,7 @@ contract SabotStakingBase is AccessControl, ISabotTrader, IClogStaking, IClogMin
 }
 
 
-contract SabotStakingV1 is Initializable, AccessControlUpgradeable, UUPSUpgradeable, SabotStakingBase{
+contract SabotStakingV1 is Initializable, AccessControl, UUPSUpgradeable, SabotStakingBase{
     bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
 
     /// @custom:oz-upgrades-unsafe-allow constructor
@@ -111,8 +111,6 @@ contract SabotStakingV1 is Initializable, AccessControlUpgradeable, UUPSUpgradea
     }
 
     function initialize() initializer public {
-        __AccessControl_init();
-        __UUPSUpgradeable_init();
 
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(UPGRADER_ROLE, msg.sender);
