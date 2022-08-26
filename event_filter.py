@@ -6,9 +6,13 @@ from pathlib import Path
 # from crypto_wallet import generate_account, get_balance,send_transaction
 
 def handle_event(contract,event_raw):
+    # SabotSwap event defines args sellToken, sellTokenAmount, buyToken, buyTokenAmount
     receipt = w3.eth.getTransactionReceipt(event_raw['transactionHash'])
+    # SabotSwap event defines args sellToken, sellTokenAmount, buyToken, buyTokenAmount
     swap_event = contract.events.SabotSwap().processReceipt(receipt)[0]  
-    minting_event = contract.events.Minted().processReceipt(receipt)[0]  
+    # Minted eventSabotSwap event defines clogAmount, owner
+    minted_event = contract.events.Minted().processReceipt(receipt)[0]  
+    # Staking event defines args owner, sellToken, sellTokenAmount, clogAmount
     staking_event = contract.events.Staking().processReceipt(receipt)[0]  
     if swap_event is not None and 'event' in swap_event:
         args = f"event: {swap_event['event']}\n"

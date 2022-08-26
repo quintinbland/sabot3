@@ -1,38 +1,36 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "./openzeppelin/access/AccessControl.sol";
-import "./openzeppelin/proxy/utils/Initializable.sol";
-import "./openzeppelin/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
 // @TODO: use errors and revert instead of error messages
 
 interface IClogMinter{
-    function mint_clog(address to, uint amount) external;
-    function burn_clog(address from, uint amount) external;
-    event Minted(uint clogAmount, address to);
-    event Burned(uint clogAmount, address from);
+    function mint_clog(address to, uint256 amount) external;
+    function burn_clog(address from, uint256 amount) external;
 }
 
 interface IClogStaking{
-    function stakeTokens(uint _amount) external;
-    function unstakeTokens(uint _amount) external;
-    // event Staking(address owner, uint clogAmount, address sellToken, uint sellTokenAmount);
-    // event Unstaked(address owner, uint clogAmount, address buyToken, uint buyTokenAmount);
-    event Staking(address owner, uint clogAmount);
-    event Unstaked(address owner, uint clogAmount);
+    function stakeTokens(uint256 _amount) external;
+    function unstakeTokens(uint256 _amount) external;
+    event Staking(address owner, address sellToken, uint256 sellTokenAmount, uint256 clogAmount);
+    event Unstaked(address owner, address buyToken, uint256 buyTokenAmount, uint256 clogAmount);
+    event Minted(uint256 clogAmount, address owner);
+    event Burned(uint256 clogAmount, address owner);
 }
 
 interface ISabotTrader{
-    function swap(address sellToken, uint sellTokenAmount, address buyToken) external;
-    event SabotSwap(address indexed sellToken, uint sellTokenAmount, address buyToken, uint buyTokenAmount);
+    function swap(address sellToken, uint256 sellTokenAmount, address buyToken) external;
+    event SabotSwap(address indexed sellToken, uint256 sellTokenAmount, address buyToken, uint256 buyTokenAmount);
 }
 
 interface StableSwap {
     function exchange(int128 i, int128 j, uint256 dx, uint256 min_dy) external;
 }
 
-contract SabotStakingBase is AccessControl, ISabotTrader, IClogStaking, IClogMinter {
+contract SabotStakingBase is AccessControlUpgradeable, ISabotTrader, IClogStaking, IClogMinter {
 
     // for upgradeability - NEVER change the order of these variables
     //    also,             NEVER delete these 
@@ -43,6 +41,7 @@ contract SabotStakingBase is AccessControl, ISabotTrader, IClogStaking, IClogMin
     uint public balance;
     address curvePoolAddr;
     mapping(address => int128) poolCoinIndex;
+    address stakingToken;
     // -- end V1.0.0 definitions
 
     constructor() {
@@ -51,11 +50,10 @@ contract SabotStakingBase is AccessControl, ISabotTrader, IClogStaking, IClogMin
         _grantRole(CLOG_MINTER_ROLE, msg.sender);
     }
 
-    function swap(address sellToken, uint256 sellTokenAmount, address buyToken)
+    function swap(address sellToken, uint sellTokenAmount, address buyToken)
     onlyRole(SABOT_BOT_ROLE)
     public
     {
-
         //TODO: IMPLEMENT
         uint buyTokenAmount = 42;
         balance += buyTokenAmount;
@@ -88,30 +86,30 @@ contract SabotStakingBase is AccessControl, ISabotTrader, IClogStaking, IClogMin
         emit Burned(amount, from);
     }
 
-    function stakeTokens(uint _amount) 
+    function stakeTokens(uint256 _amount) 
     public
     {
         address owner = msg.sender;
         //TODO: IMPLEMENT
-
+        uint256 clogAmount = _amount;
         // ----
-        emit Staking(owner,_amount);
+        emit Staking(owner,stakingToken,_amount,clogAmount);
     }
 
-    function unstakeTokens(uint _amount) 
+    function unstakeTokens(uint256 clogAmount) 
     public
     {
         address owner = msg.sender;
         //TODO: IMPLEMENT
-
+        uint256 buyTokenAmount = clogAmount;
         // ----
-        emit Unstaked(owner,_amount);
+        emit Unstaked(owner,stakingToken,buyTokenAmount,clogAmount);
     }
 
 }
 
 
-contract SabotStakingV1 is Initializable, AccessControl, UUPSUpgradeable, SabotStakingBase{
+contract SabotStakingV1 is Initializable, AccessControlUpgradeable, UUPSUpgradeable, SabotStakingBase{
     bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
 
     /// @custom:oz-upgrades-unsafe-allow constructor
@@ -120,6 +118,8 @@ contract SabotStakingV1 is Initializable, AccessControl, UUPSUpgradeable, SabotS
     }
 
     function initialize() initializer public {
+        __AccessControl_init();
+        __UUPSUpgradeable_init();
 
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(UPGRADER_ROLE, msg.sender);
