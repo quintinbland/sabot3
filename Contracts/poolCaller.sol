@@ -2,19 +2,21 @@
 pragma solidity ^0.8.9;
 
 
-interface ICurvePool {
-    function exchange() external;
+interface StableSwap {
+    function exchange(int128 i, int128 j, uint256 dx, uint256 min_dy) external;
 }
+
 
 contract Interaction {
     address curvePoolAddr;
+    event Exchange();
 
-    function getCurvePoolAddr(address _poolAddr) public payable returns (address) {
+    function setCurvePoolAddr(address _poolAddr) public {
         curvePoolAddr = _poolAddr;
-        return curvePoolAddr;
     }
 
-    function getExchange() external payable {
-        return ICurvePool(curvePoolAddr).exchange();
+    function getExchange(int128 i, int128 j, uint256 dx, uint256 min_dy) external payable {
+        StableSwap(curvePoolAddr).exchange(i, j, dx, min_dy);
+        emit Exchange();
     }
 }
