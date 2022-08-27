@@ -7,10 +7,11 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract USDT is ERC20, Ownable {
 
-    constructor(uint256 initialAmount, address[] memory addressesToInitialize) ERC20("USDT", "USDT") {
+    constructor(address owner, uint256 initialAmount, address[] memory addressesToInitialize) ERC20("USDT", "USDT") {
       for (uint8 i=0; i<addressesToInitialize.length; i++) {
             _mint(addressesToInitialize[i],initialAmount);
-      }        
+      }     
+      transferOwnership(owner);   
     }
 
     function mint(address to, uint256 amount) public onlyOwner {
