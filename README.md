@@ -161,15 +161,15 @@ If deploying in a test environment, deploy dependencies using **DeployTestAssets
 
 
 ```
-wallet 1: 0xeb170e4FCC7693618857E468CFF622217ec6b577 - deployTestAssets(owns USDT, SUSD, curvePool) deploySabotStakingAssets(admin of Clog and SabotStaking)
-wallet 2: 0x8BD0536656a365272cC181A9561C8a8C744b90d7
-wallet 3: 0x522Ce41bB0299859e9CF112440AD16875Ab60c26
-wallets to initialize: ["0xeb170e4FCC7693618857E468CFF622217ec6b577","0x8BD0536656a365272cC181A9561C8a8C744b90d7","0x522Ce41bB0299859e9CF112440AD16875Ab60c26"]
+wallet 1: 0x753f95da5E01A463c0952F81C3a4366e405019b1 - deployTestAssets(owns USDT, SUSD, curvePool) deploySabotStakingAssets(admin of Clog and SabotStaking)
+wallet 2: 0x59fe7E0c4303125Ee5e1fA6248723BF017668835
+wallet 3: 0x5771e5c030Aa3594E3385eBcdC2c3ea50A27a24f
+wallets to initialize: ["0x753f95da5E01A463c0952F81C3a4366e405019b1","0x59fe7E0c4303125Ee5e1fA6248723BF017668835","0x5771e5c030Aa3594E3385eBcdC2c3ea50A27a24f"]
 
-botWallet: 0x8Ced51Ee27E45B7f862F67BaE3DCc176096B5bE0   (in deployment configured to be SABOT_BOT_ROLE -> swap())
-usdt: 0x26fdA07e0e2ca5F407D97b267DD006356e367241
-susd: 0x3ad5AD3DEE8f32cFa960373CA7B9Aba5f3B1b12C
-curve pool: 0x6eF74B9C422f7148635694a93bBacF0DB3Cd7BC7
+botWallet: 0x1c4b2bBBf8F31786Cd1de8c160A44De1152A6375   (in deployment configured to be SABOT_BOT_ROLE -> swap())
+usdt: 0x563f1aAca7578AA493140d60be939d6bE9FA92De
+susd: 0x3A5608A6F2B4bf13D98629Ca2207D4d2f674287F
+curve pool: 0x776F4B255b8936963Fa1e9478063bA0E79486D50
 clog: 
 sabotStaking: 
 ```
