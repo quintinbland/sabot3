@@ -91,7 +91,7 @@ contract SabotStakingBase is AccessControl, ISabotTrader, IClogStaking {
     function stakeTokens(uint256 _amount, address token) 
     public
     {
-        require(token == baseToken,string.concat("only ", ERC20(baseToken).name(), " tokens can be staked"));
+//        require(token == baseToken,string.concat("only ", ERC20(baseToken).name(), " tokens can be staked"));
         // add requires
         ERC20(baseToken).transferFrom(msg.sender,address(this),_amount);
         uint256 utilityTokenAmount = convertBaseTokenToUtilityToken(_amount);
@@ -102,7 +102,7 @@ contract SabotStakingBase is AccessControl, ISabotTrader, IClogStaking {
     function unstakeTokens(uint256 _amount, address token) 
     public
     {
-        require(token == baseToken,string.concat("only ", ERC20(baseToken).name(), " tokens can be unstaked"));
+//        require(token == baseToken,string.concat("only ", ERC20(baseToken).name(), " tokens can be unstaked"));
         // add a require that calculates how much USDT can be unstaked based on clog price
         ERC20(baseToken).transfer(msg.sender,_amount);
         uint256 utilityTokenAmount = convertBaseTokenToUtilityToken(_amount);
