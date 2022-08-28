@@ -201,16 +201,41 @@ If deploying in a test environment, deploy dependencies using **DeployTestAssets
         5. Open the contract and click on the `name` button.
         6. The name should display `USDT`
     2. Repeat the same steps for the `sUSD` and the `CurvePool` contracts.
-
-7.   
+  
 
 ### 3. Deploy SabotStaking         (Yanick)
 
-*Instructions needed, additionally, video even better*
-*list addresses that need to be retrieved and how to do that*
+1. Select the `"DeploySabotStaking.sol"` contract in the Remix IDE.
+2. Select your assigned `Bot` wallet in Metamask (select one of the created wallet in the `"1. Allocate Wallet Addresses"` section of the README file and make sure it does not conflict).
+    * In `DEPLOY` -> `ACCOUNT` drop down menu, the address should echo exactly the latest selected wallet from Metamask (aka the `Bot` wallet).
+3. In the `CONTRACT` drop down menu, select the `DeploySabotStakingAsset` contract. Open the `DEPLOY` menu.
+
+    * Fill-in the `VERSION` value in the edit box (ie. 1.18).
+    * Add the `BOT_WALLET_ADDRESS`. Copy/Paste either from the `ACCOUNT` drop down menu or from `Metamask`.
+    * Add the `BASE_TOKEN_ADDRESS` by pasting the `USDT` address from `DeployTestAsset` logs (see `Deploy Test Assets` section 5).
+    * Add the `TARGET_TOKEN_ADDRESS` by pasting the `sUSD` address from `DeployTestAsset` logs (see `Deploy Test Assets` section 5).
+    * Set the `BASE_TOKEN_INDEX` to `2` for `USDT`.
+    * Set the `TARGET_TOKEN_INDEX` to `3` for `sUSD`.
+    * Add the `CURVE_POOL_ADDRESS` by pasting the `Curve_Pool` address from `DeployTestAsset` logs (see `Deploy Test Assets` section 5).
+
+4. Once all the information has been completed press on `transact`.
+5. Your `Metamask` wallet will pop-up and resquest a confirmation. Press `Confirm`.
+6. Once confirmed, the `DeploySabotStakingAsset` contract will:
+    * Add a transaction log in the `log terminal` (bottom part of the UI) where you will retrieve the `CLOG Token` address and the `SabotStaking` contract address which will be needed for the `SabotStakingV1` contract.
+    * The contract also appears in the `Deployed Contracts` section to the bottom left side of the Remix UI.
+
 
 ### 4. Configure REMIX IDE         (Yanick)
 *Instructions on how to configure REMIX IDE for Testing*
+
+1. Select the `"SabotStakingV1.sol"` contract in the Remix IDE.
+2. Verify that your `Bot` wallet is selected in Metamask and in your Remix `ACCOUNT` drop down menu.
+3. In the `CONTRACT` drop down menu, select the `SabotStakingV1` contract.
+4. Paste the `SabotStaking` contract address from the `DeploySabotStakingAsset` logs (see `Deploy SabotStaking` section 6) next to the `At Address` in the `Deploy` section.
+5. Click on the `At Address` button.
+6. The contract will appears in the `Deployed Contracts` section to the bottom left side of the Remix UI.
+7. Open the contract and click on the `name` button.
+8. The name should display `USDT ==> sUSD | Clog`
 
 ### 5. Configure participant wallets   (Yanick)
 *Instructions on how to connect participant wallets, e.g. adding USDT sUSD and CLOG tokens, video even better*
