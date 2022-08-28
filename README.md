@@ -234,7 +234,7 @@ If deploying in a test environment, deploy dependencies using **DeployTestAssets
     * Add a transaction log in the `log terminal` (bottom part of the UI) where you will retrieve the `CLOG Token` address and the `SabotStaking` contract address which will be needed for the `SabotStakingV1` contract.
     * The contract also appears in the `Deployed Contracts` section to the bottom left side of the Remix UI.
 
-![DeploySabotStaking-BotWallet](./images/readme/DeploySabotStaking_MetamaskConfirmation.png)
+![DeploySabotStaking-BotWallet](./images/readme/DeploySabotStaking_logs.png)
 
 6. Congratulation! You've successfuly deployed the `DeploySabotStakingAsset` contract.
 
@@ -246,6 +246,9 @@ If deploying in a test environment, deploy dependencies using **DeployTestAssets
 3. In the `CONTRACT` drop down menu, select the `SabotStakingV1` contract.
 4. Paste the `SabotStaking` contract address from the `DeploySabotStakingAsset` logs (see `Deploy SabotStaking` section 6) next to the `At Address` in the `Deploy` section.
 5. Click on the `At Address` button.
+
+![DeploySabotStaking-BotWallet](./images/readme/SabotStakingV1_Deploy.png)
+
 6. The contract will appears in the `Deployed Contracts` section to the bottom left side of the Remix UI.
 7. Open the contract and click on the `name` button.
 8. The name should display `USDT ==> sUSD | Clog`
