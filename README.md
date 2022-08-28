@@ -173,6 +173,37 @@ If deploying in a test environment, deploy dependencies using **DeployTestAssets
 *Instructions needed, additionally, video even better*
 *list addresses that need to be retrieved and how to do that*
 
+1. Select the "DeployTestAssets.sol" contract in the Remix IDE
+
+2. Select your wallet #1 in Metamask. 
+
+    * In Remix, in the `DEPLOY` -> `ENVIRONMENT` drop down menu select `Injected Provider - Metamask`.
+    * The address should echo exactly the selected wallet from Metamask.
+
+3. In the `CONTRACT` drop down menu, select the `DeployTestAsset` contract.
+
+    * Fill-in the `INITIALAMOUNT` value in the edit box followed by 18 digits.
+    * Add the `WALLET_TO_INITIALIZE` between brackets (ie. ["wallet adress 1", "wallet address 2", "wallet address n"]).
+
+4. Your `Metamask` wallet will pop-up and resquest a confirmation. Press `Confirm`.
+
+5. Once confirmed, the `DeployTestAsset` contract will:
+    * Add a transaction log in the `log terminal` (bottom part of the UI) where you will retrieve the `USDT`, `sUSD` and `CurvePool` contract address which will be needed for the `DeploySabotStaking` contract.
+    * The contract also appears in the `Deployed Contracts` section to the bottom left side of the Remix UI.
+
+6. Verify the deployment of the `USDT`, `sUSD` and `CurvePool` contract (OPTIONAL).
+
+    1. Verification of the USDT contract deployment:
+        1. In the `CONTRACT` drop down menu, select the `USDT` contract
+        2. Paste the `USDT` address from `DeployTestAsset` logs (see section 5) next to the `At Address` in the `Deploy` section.
+        3. Click on the `At Address` button.
+        4. The contract will appears in the `Deployed Contracts` section to the bottom left side of the Remix UI.
+        5. Open the contract and click on the `name` button.
+        6. The name should display `USDT`
+    2. Repeat the same steps for the `sUSD` and the `CurvePool` contracts.
+
+7.   
+
 ### 3. Deploy SabotStaking         (Yanick)
 
 *Instructions needed, additionally, video even better*
@@ -214,16 +245,16 @@ sabotStaking:
 
 ```
 Yanick's Cheat Sheet
-wallet 1: 0x9aDdD9779374F638DFaac82A34B6c9E267839cE4 - deployTestAssets(owns USDT, SUSD, curvePool) deploySabotStakingAssets(admin of Clog and SabotStaking)
+wallet 1: 0x1dC8c5Da5367E24Aa40AC6ed52d8DC0d442D6E08 - deployTestAssets(owns USDT, SUSD, curvePool) deploySabotStakingAssets(admin of Clog and SabotStaking)
 wallet 2: 0x1BDFEa7eB5405Ec90188f8dF38Fa1Ed60faA03f6
 wallet 3: 0xb5B9458B59532a46510D07715d4663a2b4281c90
 wallets to initialize: ["0x9aDdD9779374F638DFaac82A34B6c9E267839cE4","0x1BDFEa7eB5405Ec90188f8dF38Fa1Ed60faA03f6","0xb5B9458B59532a46510D07715d4663a2b4281c90"]
 
-botWallet: 0x1c4b2bBBf8F31786Cd1de8c160A44De1152A6375   (in deployment configured to be SABOT_BOT_ROLE -> swap())
-usdt: 0x9a664A426d0EB8353E8B150EC368B02e610F83e3
-susd: 0x3f9844C447608a4E59D94A3c97013744CF243E8F
-curve pool: 0xF1567B4f34f38C3e03708e5774e742C30c783E05
-clog: 
-sabotStaking: 
+botWallet: 0x1BDFEa7eB5405Ec90188f8dF38Fa1Ed60faA03f6   (in deployment configured to be SABOT_BOT_ROLE -> swap())
+usdt: 0x7D8DDEd54194F7e2c40169a8B8Ffe39dCdDd4F91
+susd: 0xBb02EDA41d8bB1965ae7a8e8dAC194DCc0A85200
+curve pool: 0x6bC3a60F1660E052B33FeA369aCA144CB329f13F
+clog: 0xcF712EA0FFa7F71BAaed761dA109784277A89290
+sabotStaking: 0x3e1EE47E860499803273e9769789c26573e7c378
 ```
-
+deploysabotstakingasset wallet - 0xE16c17Fae77B6D8D630C641EcF927ed283C57FA9
