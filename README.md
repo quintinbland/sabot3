@@ -1,11 +1,11 @@
 # SabotStaking Pool
 The `SabotStaking Pool` is a configurable fit for purpose defi pool aimed at accelerating the implementation of automated cryptocurrency arbitrage trading strategies.
 
-The solution consists of a set of coordinated web3 applications and smart contracts that are designed to.
-* secure participant assets.
-* prevent risk of fraud, rug pulls and other nefarious actions.
-* minimize transaction costs through on-chain trading.
-* scale to support the demands of large defi solutions.
+The solution consists of a set of coordinated web3 applications and smart contracts that are designed to:
+* Secure participant assets.
+* Prevent risk of fraud, rug pulls and other nefarious actions.
+* Minimize transaction costs through on-chain trading.
+* Scale to support the demands of large defi solutions.
 
 ### **Tech**
 * wizard.openzeppelin.com - An online wizard provided by OpenZeppelin that creates contract skeleton based on advanced feature selections.
@@ -76,14 +76,14 @@ The `bot` is able to send trade orders to the `Staking` Smart contract and the `
 
 #### **Objective** 
 Demonstrate that the `CLOG` is effective at:
-- representing participant ownership stake.
-- tracking participant porportional value.
+- Representing participant ownership stake.
+- Tracking participant porportional value.
 #### **Prerequisites**
 * `SabotStaking` smart contract is deployed.
 * `SabotStaking` smart contract has a portfolio of `USDT tokens` (stretch goal to also have sUSD, though not MVP).
 * `SabotStaking` has participants and there is an amount of `CLOG tokens` in circulation.
 * `SabotStaking` has a method to calculate and return token price.
-* 2 participants with `CLOGs`.
+* Two participants with `CLOGs`.
 #### **Requirements**
 * Get initial `CLOG` price.
 * Artificially increase portfolio value by transferring a quantity of `USDT` to `SabotStaking` smart contract.
@@ -118,18 +118,18 @@ The resulting smart contract ensures asset safety and prevents rug pull or any o
 
 #### **Requirements**
 * Multisig contract deploys the deployment contract.
-    * passes in the following:
+    * Passes in the following:
         * `bot wallet` address.
-        * mapping of `coin` address to `pool` index.
+        * Mapping of `coin` address to `pool` index.
         * `curve pool` address.
 
-* deployment contract deploys the SabotStaking contract and gets its address.
-    * set the `bot` address as the SabotStaking `TRADER_ROLE` in constructor.
-    * set the `Curve Pool` address in constructor.
-    * set coin to pool integr mapping in the constructor.
+* Deployment contract deploys the SabotStaking contract and gets its address.
+    * Set the `bot` address as the SabotStaking `TRADER_ROLE` in constructor.
+    * Set the `Curve Pool` address in constructor.
+    * Set coin to pool integr mapping in the constructor.
 
-* deployment contract deploys the `CLOG` token contract and gets its address.
-    * set the `SabotStaking` contract address as the `CLOG MINTER_ROLE` in constructor.
+* Deployment contract deploys the `CLOG` token contract and gets its address.
+    * Set the `SabotStaking` contract address as the `CLOG MINTER_ROLE` in constructor.
 
 #### **Verification**
 * `SabotStaking` contract is deployed.
