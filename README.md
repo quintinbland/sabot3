@@ -266,6 +266,25 @@ If deploying in a test environment, deploy dependencies using **DeployTestAssets
 #### Automated arbitrage trading    (John)
 *Instructions on how to set up the monitor and / demo showing automated arbitrage trading, video even better**
 
+---
+
+### Cost Analysis
+An exploration of costs was conducted.  At the time of th analysis
+
+* gas fee = 10 gwei
+* 1 eth = $1,465.16
+
+| Transaction | Version | Gas | gwei | cost $(USD) |
+|-------------|---------|-----|-----|------| 
+| Deploy Test Assets |   -  | 4968102 | 49681020 | 126.92 |
+| Deploy SabotStaking Assets | non-proxy | 6784487 | 67844870 | 173.33 |
+| Deploy SabotStaking Assets | proxy | 9069888 | 90698880 | 231.72 |
+| Directly call Curve pool exchange method |  -  | 25457 | 254570 | 0.65037 |
+| Bot calling swap method | non-proxy | 51902 | 519020 | 1.3260 |
+| Bot calling swap method | proxy | 68661 | 686610 | 1.7541 |
+| ERC20 approval for staking |  -  | 46179 | 461790 | 1.1798 |
+| Staking | non-proxy | 130105 | 1301050 | 3.3239 |
+| Staking | proxy | 132993 | 1329930 | 3.3239 | 3.3977 |
 
 
 ---
