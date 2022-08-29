@@ -135,4 +135,6 @@ artifacts/
 .openzeppelin/
 package-lock.json
 
+# sabot files
+*_abi.json
 *.log

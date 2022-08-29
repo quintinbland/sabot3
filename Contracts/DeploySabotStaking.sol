@@ -19,77 +19,61 @@ contract DeploySabotStakingAssets{
     //    - CurvePool address
     bytes32 public constant DEFAULT_ADMIN_ROLE = 0x00;
     bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
     event Deployed(string name,address contract_address);
     constructor(
-        string memory version,
         address bot_wallet_address,
         address base_token_address,
         address target_token_address,
         int128 base_token_index,
         int128 target_token_index,
         address curve_pool_address
-        )
+        ).    
     {
+        // create utility token instance 
+        //set the SabotStaking contract as the Minter for this token
+        Clog clog = new Clog();
+        emit Deployed(clog.name(),address(clog));
 
+        // in order for conversion algofithm to safely work, base token decimals must be < = utility token decimals
+        require(clog.decimals() >= ERC20(base_token_address).decimals(),"Invalid token configuration.  Base token decimals must be less than or equal to utility token decimals.");
 
-        // --- begin section for upgradable deployment
-        // // instantiate logic contract
-        // SabotStakingV1 logic_contract = new SabotStakingV1();
-        // address logic_contract_address = address(logic_contract);
-        // // string memory logic_label = "SabotStakingLogic";
-        // // emit Deployed(logic_label,logic_contract_address);
+        // instantiate logic contract
+        SabotStakingV1 logic_contract = new SabotStakingV1();
 
-        // // instantiate proxy contract, attaching it to the logix contract
-        // bytes memory data = new bytes(0);
-        // SabotStakingProxy proxy_contract = new SabotStakingProxy(logic_contract_address,data);
-        // address proxy_contract_address = address(proxy_contract);
-        // // string memory proxy_label = "SabotStakingProxy";
-        // // emit Deployed(proxy_label,proxy_contract_address);
+        // instantiate proxy contract, attaching it to the logix contract
+        bytes memory data = new bytes(0);
+        SabotStakingProxy proxy_contract = new SabotStakingProxy(address(logic_contract),data);
 
-        // // initialize proxy contract
-        // SabotStakingV1(proxy_contract_address).initialize(
-        //     version,
-        //     bot_wallet_address,
-        //     base_token_address,
-        //     target_token_address,
-        //     curve_pool_address,
-        //     base_token_index,
-        //     target_token_index
-        // );
-        // --- end section for upgradable deployment
-
-        // --- begin section for static deployment
-        SabotStakingV1 logic_contract = new SabotStakingV1(
-            version,
+        // initialize proxy contract
+        SabotStakingV1(address(proxy_contract)).initialize(
             bot_wallet_address,
             base_token_address,
             target_token_address,
+            address(clog),
             curve_pool_address,
             base_token_index,
             target_token_index
         );
-        address proxy_contract_address = address(logic_contract);
-        // --- end section for static deployment
-
-        // create utility token instance and set the SabotStaking contract as the Minter for this token
-        Clog clog = new Clog(msg.sender, proxy_contract_address);
-        address utility_token_address = address(clog);
-        emit Deployed(clog.name(),utility_token_address);
-
-        // now that the utility token is available, set the utility token in the staking contract to complete
-        // staking contract set up
-        SabotStakingV1(proxy_contract_address).setUtilityToken(utility_token_address);
+        // 333333333333333333
+        // set utility token admin to the desginated owner address
+        // set the minter to the sabotstaking contract address
+        // and revoke these roles for the deployment contract address
+        clog.grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        clog.grantRole(MINTER_ROLE, address(proxy_contract));
+        clog.renounceRole(MINTER_ROLE,address(this));
+        clog.renounceRole(DEFAULT_ADMIN_ROLE,address(this));
 
         // finally set sabotstaking admin and upgrader roles to the desginated owner address
         // and revoke these roles for the deployment contract address
-        SabotStakingV1(proxy_contract_address).grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        SabotStakingV1(proxy_contract_address).grantRole(UPGRADER_ROLE, msg.sender);
-        SabotStakingV1(proxy_contract_address).renounceRole(UPGRADER_ROLE,address(this));
-        SabotStakingV1(proxy_contract_address).renounceRole(DEFAULT_ADMIN_ROLE,address(this));
+        SabotStakingV1(address(proxy_contract)).grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        SabotStakingV1(address(proxy_contract)).grantRole(UPGRADER_ROLE, msg.sender);
+        SabotStakingV1(address(proxy_contract)).renounceRole(UPGRADER_ROLE,address(this));
+        SabotStakingV1(address(proxy_contract)).renounceRole(DEFAULT_ADMIN_ROLE,address(this));
 
         // indicate sabotstaking contract deployment is completed
-        emit Deployed(SabotStakingV1(proxy_contract_address).name(),proxy_contract_address);
+        emit Deployed(SabotStakingV1(address(proxy_contract)).name(),address(proxy_contract));
 
     }
 }
