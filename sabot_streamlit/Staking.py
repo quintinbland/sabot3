@@ -100,6 +100,7 @@ def get_usdt_abi():
 def stake(amount):
     clog_abi = get_clog_abi()
     clog_address = get_addresses()["clog_address"]
+    clog_contract = get_w3().eth.contract(address = clog_address, abi = clog_abi)
     usdt_abi = get_usdt_abi()
     usdt_address = get_addresses()["usdt_address"]
     usdt_contract = get_w3().eth.contract(address=usdt_address, abi=usdt_abi)
@@ -113,9 +114,12 @@ def stake(amount):
     try:
         
 
-
+        usdt_balance = usdt_contract.functions.balanceOf(account.address).call()
+        clog_balance = clog_contract.functions.balanceOf(account.address).call()
         # 1st call to usdt decimals
         usdt_decimals = usdt_contract.functions.decimals().call()
+
+        print(f'USDT Balance {balance}')
         usdt_in_decimals = int(amount * (10**usdt_decimals))
         print(f"When you stake {amount} USDT with decimals of {usdt_decimals} it becomes: {usdt_in_decimals}")
         
@@ -138,9 +142,13 @@ def stake(amount):
             # After approval, issue CLOG 
             # get sabot staking contract using abi and adress
 
-            stake_event = sabot_staking_contract.events.Staked().processReceipt(receipt)
+            stake_event = sabot_staking_contract.events.Staked().processReceipt(receipt)[0]
+            print(f'Stake event: {stake_event}')
+            print(f'Transaction receipt {receipt}')
             if stake_event is not None and "event" in stake_event and stake_event["event"] =="Staked":
                 st.write("You've successfully staked USDT")
+            else:
+                st.write("wut the heck")
         else:
             st.write("Approval failed")
 
@@ -164,7 +172,6 @@ with st.container():
 sidebar_logo = st.sidebar.image("images\sabot_logo.png", width=75) 
 # st.sidebar.write(sidebar_logo)
 
-# add in tabs for presentation. Look at sabot dashboard/console for examples on how to implement
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["Intro", "Architechture", "Staking", "Arbitrage Trading", "Next Steps"])
 
 with tab1:
@@ -172,12 +179,20 @@ with tab1:
         st.header("Intro")
         st.markdown("---")
         st.subheader("Project Outline")
+        st.write("""
+        The SabotStaking Pool is a configurable fit for purpose defi pool aimed at accelerating the implementation of automated cryptocurrency arbitrage trading strategies.
+        The solution consists of a set of coordinated web3 applications and smart contracts that are designed to 
+        * secure participant assets
+        * prevent risk of fraud, rug pulls and other nefarious actions
+        * minimize transaction costs through on-chain trading
+        * scale to support the demands of large defi solutions""")
 
 with tab2:
     with st.container():
         st.header("Architechture")
         # diagrams
         # markdown table with costs
+        # st.markdown(pd.DataFrame{})
 
 with tab3:
     with st.container():
@@ -185,6 +200,12 @@ with tab3:
         st.subheader("Welcome! Please connect your wallet to begin")
 
         # connect wallet button
+        # create 2 columns
+        # right column: st.header(wallet address)
+        # below header show usdt balance
+        # below show clog balance
+        # goal: show balances before and after staking
+
         user_wallet = st.text_input("Please enter your wallet address")
 
         if st.button("Connect Wallet"):
@@ -199,12 +220,21 @@ with tab3:
             else:
                 st.write("Connected successfully")               
                 st.session_state["account"] = account
+
+                usdt_before, clog_before = st.columns(2)
+                usdt_before.metric("USDT balance before stake", f"{usdt_balance}")
+                clog_before.metric("Clog balance before stake", "1")
+
         if "account" in st.session_state:
             with st.container():
                 st.write("Staking UI here")
                 usdt_stake_amount = st.text_input("Enter amount of USDT to stake")
                 if st.button("Stake"):
                     stake(float(usdt_stake_amount))
+
+                    usdt_after, clog_after = st.columns(2)
+                    usdt_after.metric("USDT balance after stake", "1")
+                    clog_after.metric("Clog balance after stake", "1")
 
 
 
