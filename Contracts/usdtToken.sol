@@ -14,6 +14,11 @@ contract USDT is ERC20, Ownable {
       transferOwnership(owner);   
     }
 
+    function decimals() public pure override returns (uint8) {
+        // USDT has a decimals value of 6
+        return 6;
+    }
+
     function mint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount);
     }
