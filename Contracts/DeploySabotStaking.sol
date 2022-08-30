@@ -29,7 +29,7 @@ contract DeploySabotStakingAssets{
         int128 base_token_index,
         int128 target_token_index,
         address curve_pool_address
-        ).    
+        ) 
     {
         // create utility token instance 
         //set the SabotStaking contract as the Minter for this token

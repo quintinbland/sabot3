@@ -128,7 +128,6 @@ def stake(amount):
             st.write(f"Approval of {usdt_in_decimals}")
             # print(approval_event)
         
-        
             # call staking method, pass in approved amount and USDT contract
             tx_hash = sabot_staking_contract.functions.stakeTokens(usdt_in_decimals, usdt_address).transact({'from': account.address , 'gas': 30000000})
             print(tx_hash)
