@@ -3,23 +3,31 @@ import requests
 import json
 import streamlit as st
 from bip44 import Wallet
-from web3 import Account
+from web3 import Web3, Account
 from dotenv import load_dotenv
 from mnemonic import Mnemonic
 from pathlib import Path
+from st_functions import st_button, load_css
 
-def configure():
-    load_dotenv()
+load_dotenv()
 
-def validateJSON(jsonData):
-    try: 
-        json.loads(jsonData)
-    except ValueError as err:
-        return False
-    return True  
+@st.cache
+def get_addresses():
+    addresses = {
+        "usdt_address": os.getenv("USDT_ADDRESS"),
+        "susd_address": os.getenv("SUSD_ADDRESS"),
+        "sabot_staking_contract_address": os.getenv("SABOT_STAKING_BASE_CONTRACT_ADDRESS"),
+        "clog_address": os.getenv("CLOG_CONTRACT_ADDRESS"),
+    }
+    return addresses
 
-def mnemonic_generator(address, strength=128,
-                       language='english'):
+def get_w3():
+    if "w3" not in st.session_state:
+        st.session_state["w3"] = Web3(Web3.HTTPProvider(os.getenv("GANACHE_URL")))
+    return st.session_state["w3"]
+
+
+def mnemonic_generator(address):
     """
     Checks .env file of the parent directory for variable named mnemonic ("MNEMONIC").
     If file is empty, mnemonic is created with specified strength (128-bit or 256-bit).
@@ -39,33 +47,16 @@ def mnemonic_generator(address, strength=128,
     mnemonic (str) : A string with the BIP-39 mnemonic of specified strength.
     
     """
-    load_dotenv()
     mnemonic = os.getenv(address)
-    
-    check_sum = {128:4,
-                256:8}
-    # Use an if-statement to check if the mnemonic variable is None
-    if((mnemonic == None) | (mnemonic=='')):
-        mnemo = Mnemonic(language)
-    
-        mnemonic = mnemo.generate(strength)
-        
-        with open('.env','a') as f:
-            f.write(f'MNEMONIC={mnemonic}')
-        
-        return mnemonic
-    elif((11.0*len(mnemonic.split())-check_sum[strength])/strength != 1):
-        return '''Provided MNEMONIC in .env file does not match specified strength. Check word count or strength(128 or 256).'''        
-    else:
-        return mnemonic
+    return mnemonic
 
 
-def generate_account(address, strength=256,
-                    language='english',
-                    ):
+def generate_account(address):
     """Create a digital wallet and Ethereum account from a mnemonic seed phrase."""
     # Fetch mnemonic from environment variable.
     mnemonic = mnemonic_generator(address)
+    if mnemonic is None:
+        return None
 
     # Create Wallet Object
     wallet = Wallet(mnemonic)
@@ -80,17 +71,87 @@ def generate_account(address, strength=256,
 
 
 
+@st.cache
+def get_sabot_staking_abi():
+    abi = None
+    with open(Path(os.getenv("SABOT_STAKING_ABI_FILE")),'r') as abi_file:
+        abi = json.load(abi_file) 
+        st.session_state["sabot_staking_abi"] = abi
+    return st.session_state["sabot_staking_abi"]
+    return abi
 
-# mnemonic = os.getenv("MNEMONIC")
-# if mnemonic is None:
-#     mnemo = Mnemonic("english")
-#     mnemonic = mnemo.generate(strength=256)
+@st.cache
+def get_clog_abi():
+    abi = None
+    with open(Path(os.getenv("CLOG_ABI")),'r') as abi_file:
+        abi = json.load(abi_file)
+        st.session_state["clog_abi"] = abi
+    return st.session_state["clog_abi"]
 
-# wallet = Wallet(mnemonic)
+@st.cache
+def get_usdt_abi():
+    if "usdt_abi" not in st.session_state:
+        with open(Path(os.environ["USDT_ABI"]),'r') as abi_file:
+            abi = json.load(abi_file)
+            # print(abi)
+            st.session_state["usdt_abi"] = abi
+    return st.session_state["usdt_abi"]
 
-# private, public = wallet.derive_account("eth")
+def stake(amount):
+    clog_abi = get_clog_abi()
+    clog_address = get_addresses()["clog_address"]
+    usdt_abi = get_usdt_abi()
+    usdt_address = get_addresses()["usdt_address"]
+    usdt_contract = get_w3().eth.contract(address=usdt_address, abi=usdt_abi)
+    sabot_staking_abi = get_sabot_staking_abi()
+    sabot_staking_address = get_addresses()["sabot_staking_contract_address"]
+    sabot_staking_contract = get_w3().eth.contract(address=sabot_staking_address, abi=sabot_staking_abi)
+    account = st.session_state["account"]
 
-# account = Account.privateKeytoAccount(private)
+    # two calls to usdt, 1st: decimals, 2nd: approve("SABOT_STAKING_BASE_CONTRACT_ADDRESS")
+    # get transaction hash, allowance event should be emitted
+    try:
+        
+
+
+        # 1st call to usdt decimals
+        usdt_decimals = usdt_contract.functions.decimals().call()
+        usdt_in_decimals = int(amount * (10**usdt_decimals))
+        print(f"When you stake {amount} USDT with decimals of {usdt_decimals} it becomes: {usdt_in_decimals}")
+        
+        # 2nd call to usdt approve function. Getting transaction receipt
+        tx_hash = usdt_contract.functions.approve(sabot_staking_address, usdt_in_decimals).transact({'from': account.address , 'gas': 3000000})
+        receipt = get_w3().eth.getTransactionReceipt(tx_hash)
+
+        approval_event = usdt_contract.events.Approval().processReceipt(receipt)[0]
+        if approval_event is not None and "event" in approval_event and approval_event["event"]=="Approval":
+            st.write(f"Approval of {usdt_in_decimals}")
+            # print(approval_event)
+        
+        
+            # call staking method, pass in approved amount and USDT contract
+            tx_hash = sabot_staking_contract.functions.stakeTokens(usdt_in_decimals, usdt_address).transact({'from': account.address , 'gas': 30000000})
+            print(tx_hash)
+            receipt = get_w3().eth.getTransactionReceipt(tx_hash)
+
+            # process receipt to look for "Staked" event *similar to checking approval_event
+
+            # After approval, issue CLOG 
+            # get sabot staking contract using abi and adress
+
+            stake_event = sabot_staking_contract.events.Staked().processReceipt(receipt)
+            if stake_event is not None and "event" in stake_event and stake_event["event"] =="Staked":
+                st.write("You've successfully staked USDT")
+        else:
+            st.write("Approval failed")
+
+    except ValueError as err:
+        print(err)
+
+
+# ************* Streamlit View Below ***********************
+
+st.set_page_config(layout="wide")
 
 # TODO: Create Variable for sabot logo to use on each page
 with st.container():
@@ -101,54 +162,134 @@ with st.container():
         st.markdown('<div><span style="font-size: 56px; font-weight: 700; position: relative; top: 20px;">SaBot</span></div>', 
         unsafe_allow_html=True)
 
-# need sabot logo .png/.jpg file if we use more than 1 page
-st.sidebar.image("images\sabot_logo.png", width=75) 
+sidebar_logo = st.sidebar.image("images\sabot_logo.png", width=75) 
+# st.sidebar.write(sidebar_logo)
 
-def main():
-    configure()
-    st.markdown("---")
-    st.subheader("Welcome! Please connect your wallet to begin")
+# add in tabs for presentation. Look at sabot dashboard/console for examples on how to implement
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["Intro", "Architechture", "Staking", "Arbitrage Trading", "Next Steps"])
 
+with tab1:
+    with st.container():
+        st.header("Intro")
+        st.markdown("---")
+        st.subheader("Project Outline")
 
-if __name__ == '__main__':
-    main()
+with tab2:
+    with st.container():
+        st.header("Architechture")
+        # diagrams
+        # markdown table with costs
 
+with tab3:
+    with st.container():
+        st.header("Staking")
+        st.subheader("Welcome! Please connect your wallet to begin")
 
-# connect wallet button
-user_wallet = st.text_input("Please enter your wallet address")
+        # connect wallet button
+        user_wallet = st.text_input("Please enter your wallet address")
 
-# Creating empty json dictionary
-# wallet_info = {
-#     "account address": "",
-#     "mnemonic": "",
-#     "public key": "",
-#     "private key": ""}
-# addresses = json.loads(wallet_info)
+        if st.button("Connect Wallet"):
+            if "account" in st.session_state:
+                del st.session_state["account"]
+            account = generate_account(user_wallet)
 
-if st.button("Connect Wallet"):
-    account = generate_account(user_wallet)
+            st.write("Connecting...") # displayed when button is clicked
 
-    st.write("Connecting...") # displayed when button is clicked
-
-    st.write(account.address)
-
-    # validate address with .json dictionary / .env file
-    # stuck
-    # function to validate address
-    # validateJSON(user_wallet) 
-    # if found, retrieve private key
-
-    # return to original screen
-    st.write("Wallet connected")
-
-
-# add abi and contract address to .env file
-# run method to 
-st.subheader("Stake USDT for CLOG")
-
-if st.button("Stake"):
-    st.number_input("Choose amount of USDT to Stake", )
+            if account is None:
+                st.write(f"Unable to connect to {account}.")
+            else:
+                st.write("Connected successfully")               
+                st.session_state["account"] = account
+        if "account" in st.session_state:
+            with st.container():
+                st.write("Staking UI here")
+                usdt_stake_amount = st.text_input("Enter amount of USDT to stake")
+                if st.button("Stake"):
+                    stake(float(usdt_stake_amount))
 
 
 
+
+
+with tab4:
+    with st.container():
+        st.header("Arbitrage Trading")
+
+with tab5:
+    with st.container():
+        st.header("Next Steps")
+
+st.markdown("---")
+
+
+
+st.markdown("---")
+
+
+# with st.empty():
+# if "account" in st.session_state:
+#     with st.container():
+#         st.write("Staking UI here")
+#         usdt_stake_amount = st.text_input("Enter amount of USDT to stake")
+#         if st.button("Stake"):
+#             st.write(usdt_stake_amount)
+
+
+
+
+
+
+# st.subheader("Stake USDT for CLOG")
+
+# usdt_contract = web3.eth.contract(address=usdt_address, abi=usdt_abi) 
+
+# sabot_staking_base_contract = web3.eth.contract(address=sabot_staking_contract_address, abi=staking_abi)
+
+# clog_contract = web3.eth.contract(address = clog_contract_address, abi=clog_abi)
+
+# if st.button("Stake"):
+#     usdt_stake_amount = st.number_input("Choose amount of USDT to Stake", )
+#     if usdt_stake_amount >= 1: 
+#         st.write(f"Staking {usdt_stake_amount} USDT tokens")
+
+#         # # when stake is pressed, use "user_wallet" to call approve method to of USDT token, passing in sabot staking contract address into the amount we are trying to stake. 
+#         usdt_contract.functions.approve(get_addresses("usdt_contract_address"), usdt_stake_amount).call() # @TODO: stuck
+
+#         # call stake method from sabot staking contract, passing in the same amount approved and USDT token address
+#         # staking USDT for sUSD, receiving CLOG 
+#         sabot_staking_base_contract.functions.stakeToken(usdt_stake_amount, usdt_address).call() # @TODO: stuck
+
+#         # # view transaction receipt, throw error if receipt is not valid
+#         result = web3.eth.get_transaction(transaction_hash) # how do i get transaction hash from remix?? # @TODO: stuck
+
+#         if result == None:
+#             st.write("Error: Transaction Receipt not found")
+#         return st.write(f"Your transaction hash: {result}")
+
+
+#         # # return amount of utility/CLOG token
+#         # sabot_staking_base_contract.functions.stakeToken().call()
+        
+#         # st.write("Congratulations, you are now the proud owner of {clog_amount} CLOG tokens!")
+#         # st.write("Thank you for participating!")
+
+    
+
+    
+# # account giving tokens need to approve, then contract can execute transfer from
+
+
+
+# # add in tabs for presentation. Look at sabot dashboard/console for examples on how to implement
+# Outline for Presentation:
+
+# Tab1 Intro/Project Outline:
+
+# Tab2 architechture
+
+# Tab3 Staking
+
+# Tab4 Swapping
+
+# Tab5 About/Next Steps
 
