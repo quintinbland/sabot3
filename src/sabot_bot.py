@@ -9,6 +9,8 @@
 ################################################################################
 # Imports
 import os
+import sys
+import time
 import requests
 from dotenv import load_dotenv
 from bip44 import Wallet
@@ -65,7 +67,6 @@ def mnemonic_generator(strength=128,
     mnemonic (str) : A string with the BIP-39 mnemonic of specified strength.
     
     """
-    load_dotenv()
     mnemonic = os.getenv("MNEMONIC")
     
     check_sum = {128:4,
@@ -77,7 +78,8 @@ def mnemonic_generator(strength=128,
         mnemonic = mnemo.generate(strength)
         
         with open('.env','a') as f:
-            f.write(f'MNEMONIC={mnemonic}\n')
+            f.write('\n')
+            f.write(f'MNEMONIC="{mnemonic}"\n')
         
         return mnemonic
     elif((11.0*len(mnemonic.split())-check_sum[strength])/strength != 1):
@@ -198,45 +200,82 @@ def open_contract_address(name):
         return '''No contract address found in .env file.'''    
 
 
-def sabot_swap(env_path='./.env'):
-    
+def sabot_swap(account, env_path='./.env'):
+    assert account is not None, "Account not available."
+    assert "USDT_ADDRESS" in os.environ , "USDT_ADDRESS is missing."
+    assert "SUSD_ADDRESS" in os.environ , "SUSD_ADDRESS is missing."
+
     # Connect to .env server
     w3 = connect_RPC_server()
-    
+    print(f'Account has balance of:\t{w3.eth.get_balance(account.address)} WEI')
     # Create/read pnemonic in .env file
-    nemo = mnemonic_generator()
+    #nemo = mnemonic_generator()
     
     # Create wallets
-    wallets=gen_wallets()
+#    wallets=gen_wallets()
     
     # Add info to .env
-    with open(env_path,'a') as f:
-        f.write('\n')
-    for wallet,info in wallets.items():
-        key=wallet.upper()
-        add_info_to_env(key,info['address'])    
+    # with open(env_path,'a') as f:
+    #     f.write('\n')
+    # for wallet,info in wallets.items():
+    #     key=wallet.upper()
+    #     add_info_to_env(key,info['address'])    
     
     # Read path to SabotSwap abi
     sabot_swap_abi = open_abi_from_env()
     
     # Read in sabot contract address
-    sabot_contract_address = open_contract_address('SABOT_SWAP_CONTRACT_ADDRESS')
+    sabot_contract_address = open_contract_address('SABOT_SWAP_CONTRACT')
     
-#     # Generate Contract
-#     contract = w3.eth.contract(address = sabot_contract_address, abi = sabot_swap_abi)
+    # # Generate Contract
+    contract = w3.eth.contract(address = sabot_contract_address, abi = sabot_swap_abi)
+    print(contract.address)
+    print(f'Sabot Contract Address: {sabot_contract_address}')
+
+    # # Create transaction
+    base_token = os.environ["USDT_ADDRESS"]
+    baseTokenAmount = 10000000
+    target_token = os.environ["SUSD_ADDRESS"]
+    gas = 3000000
+    exchangeRate = 10**18
     
-#     # Create transaction
-#     base_token =
-#     target_token = 
-#     baseTokenAmount =
-#     gas = 3000000
-#     exchange = 1
+    tx_hash = contract.functions.swap(base_token, baseTokenAmount, target_token, exchangeRate).transact({'from': account.address , 'gas': gas})
+    print(contract.functions.name().call())
+    receipt = w3.eth.getTransactionReceipt(tx_hash)
+    logs = contract.events.Swapped().processReceipt(receipt)
     
-#     tx_hash = contract.functions.swap(base_token, baseTokenAmount, target_token).transact({'from': wallets['bot_wallet']['address'] , 'gas': gas})
-#     receipt = w3.eth.getTransactionReceipt(tx_hash)
-#     logs = contract.events.SabotSwap().processReceipt(receipt)
+    print('here')
+    print(logs)
+    return 
     
+
+def run(account):
+    sabot_swap(account)
     
-    return wallets, sabot_swap_abi,sabot_contract_address
-    
-    
+
+if __name__=='__main__':
+    load_dotenv()
+
+    account =  generate_account(strength=256,
+                    language='english',
+                    coin='eth',
+                    account_num = 0,
+                    change = 0,
+                    address_index = 4,
+                )
+    print(f'Accout = {account.address}')
+
+    if 'ABI_PATH' not in os.environ:
+        print(f'ABI_PATH not in .env')
+        print(f'Terminating ...')
+        sys.exit()
+
+    if 'SABOT_SWAP_CONTRACT' not in os.environ:
+        print(f'SABOT_SWAP_CONTRACT not in .env')
+        print(f'Terminating ...')
+        sys.exit()
+
+    for i in range(100000):
+        run(account)
+        time.sleep(4)
+
