@@ -128,5 +128,16 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-
+# Node & hardhat
 node_modules/
+cache/
+artifacts/
+.openzeppelin/
+package-lock.json
+
+# sabot files
+*_abi.json
+
+
+# Mac
+.DS_Store
