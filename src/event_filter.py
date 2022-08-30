@@ -10,6 +10,7 @@ load_dotenv()
 import os
 
 writer = None
+csv_file = None
 
 def make_event_record(type,args):
     event_record = {
@@ -34,6 +35,7 @@ def make_event_record(type,args):
 
 def handle_event(contract,event_raw):
     global writer
+    global csv_file
     receipt = w3.eth.getTransactionReceipt(event_raw['transactionHash'])
     swapped_event = contract.events.Swapped().processReceipt(receipt)
     minted_event = contract.events.Minted().processReceipt(receipt)
@@ -83,7 +85,8 @@ def handle_event(contract,event_raw):
             event_record = make_event_record('ExchangeRate',exchange_rate_event[0]['args'])
             print(event_record)
             if writer is not None:
-                writer.writerow(event_record)     
+                writer.writerow(event_record)    
+                csv_file.flush()
 
     # for event_record in events:
     #     print(event_record)
@@ -102,6 +105,7 @@ def log_loop(contract,contract_filter, poll_interval):
 
 def main():
     global writer
+    global csv_file
     event_record = {
         'time':datetime.now().timestamp(),
         'type':None,
@@ -132,6 +136,7 @@ def main():
     contract = w3.eth.contract(address = contract_address , abi = abi)    
     contract_filter = w3.eth.filter({"address": contract_address})
     with open(event_log_path, 'a') as csvfile:
+        csv_file = csvfile
         writer = csv.DictWriter(csvfile, fieldnames=event_record.keys())
         log_loop(contract,contract_filter, 2)
 
