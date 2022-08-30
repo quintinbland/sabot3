@@ -27,6 +27,7 @@ def get_w3():
     return st.session_state["w3"]
 
 
+
 def mnemonic_generator(address):
     """
     Checks .env file of the parent directory for variable named mnemonic ("MNEMONIC").
@@ -98,6 +99,7 @@ def get_usdt_abi():
     return st.session_state["usdt_abi"]
 
 def stake(amount):
+
     clog_abi = get_clog_abi()
     clog_address = get_addresses()["clog_address"]
     clog_contract = get_w3().eth.contract(address = clog_address, abi = clog_abi)
@@ -109,17 +111,10 @@ def stake(amount):
     sabot_staking_contract = get_w3().eth.contract(address=sabot_staking_address, abi=sabot_staking_abi)
     account = st.session_state["account"]
 
-    # two calls to usdt, 1st: decimals, 2nd: approve("SABOT_STAKING_BASE_CONTRACT_ADDRESS")
-    # get transaction hash, allowance event should be emitted
-    try:
-        
 
-        usdt_balance = usdt_contract.functions.balanceOf(account.address).call()
-        clog_balance = clog_contract.functions.balanceOf(account.address).call()
+    try:
         # 1st call to usdt decimals
         usdt_decimals = usdt_contract.functions.decimals().call()
-
-        print(f'USDT Balance {balance}')
         usdt_in_decimals = int(amount * (10**usdt_decimals))
         print(f"When you stake {amount} USDT with decimals of {usdt_decimals} it becomes: {usdt_in_decimals}")
         
@@ -137,10 +132,7 @@ def stake(amount):
             print(tx_hash)
             receipt = get_w3().eth.getTransactionReceipt(tx_hash)
 
-            # process receipt to look for "Staked" event *similar to checking approval_event
-
             # After approval, issue CLOG 
-            # get sabot staking contract using abi and adress
 
             stake_event = sabot_staking_contract.events.Staked().processReceipt(receipt)[0]
             print(f'Stake event: {stake_event}')
@@ -148,7 +140,7 @@ def stake(amount):
             if stake_event is not None and "event" in stake_event and stake_event["event"] =="Staked":
                 st.write("You've successfully staked USDT")
             else:
-                st.write("wut the heck")
+                st.write("Stake failed.")
         else:
             st.write("Approval failed")
 
@@ -170,7 +162,6 @@ with st.container():
         unsafe_allow_html=True)
 
 sidebar_logo = st.sidebar.image("images\sabot_logo.png", width=75) 
-# st.sidebar.write(sidebar_logo)
 
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["Intro", "Architechture", "Staking", "Arbitrage Trading", "Next Steps"])
 
@@ -191,134 +182,67 @@ with tab2:
     with st.container():
         st.header("Architechture")
         # diagrams
+        # st.image()
         # markdown table with costs
         # st.markdown(pd.DataFrame{})
 
 with tab3:
+    initial_balance_usdt = 0
+    initial_balance_clog = 0
+    clog_abi = get_clog_abi()
+    clog_address = get_addresses()["clog_address"]
+    clog_contract = get_w3().eth.contract(address = clog_address, abi = clog_abi)
+    usdt_abi = get_usdt_abi()
+    usdt_address = get_addresses()["usdt_address"]
+    usdt_contract = get_w3().eth.contract(address=usdt_address, abi=usdt_abi)
     with st.container():
         st.header("Staking")
         st.subheader("Welcome! Please connect your wallet to begin")
-
+        left_col, right_col = st.columns([5,1])
+        with left_col:
         # connect wallet button
         # create 2 columns
         # right column: st.header(wallet address)
         # below header show usdt balance
         # below show clog balance
         # goal: show balances before and after staking
+            user_wallet = st.text_input("Please enter your wallet address")
+            if st.button("Connect Wallet"):
+                if "account" in st.session_state:
+                    del st.session_state["account"]
+                account = generate_account(user_wallet)
 
-        user_wallet = st.text_input("Please enter your wallet address")
+                st.write("Connecting...") # displayed when button is clicked
 
-        if st.button("Connect Wallet"):
+                if account is None:
+                    st.write(f"Unable to connect to {account}.")
+                else:
+                    st.write("Connected successfully")               
+                    st.session_state["account"] = account
+                    usdt_balance = usdt_contract.functions.balanceOf(account.address).call()
+                    clog_balance = clog_contract.functions.balanceOf(account.address).call()
+                    with right_col:
+                        right_col.metric("USDT balance before stake", usdt_balance / 10**18)
+                        right_col.metric("Clog balance before stake", clog_balance / 10**18)
+
+
             if "account" in st.session_state:
-                del st.session_state["account"]
-            account = generate_account(user_wallet)
-
-            st.write("Connecting...") # displayed when button is clicked
-
-            if account is None:
-                st.write(f"Unable to connect to {account}.")
-            else:
-                st.write("Connected successfully")               
-                st.session_state["account"] = account
-
-                usdt_before, clog_before = st.columns(2)
-                usdt_before.metric("USDT balance before stake", f"{usdt_balance}")
-                clog_before.metric("Clog balance before stake", "1")
-
-        if "account" in st.session_state:
-            with st.container():
-                st.write("Staking UI here")
-                usdt_stake_amount = st.text_input("Enter amount of USDT to stake")
-                if st.button("Stake"):
-                    stake(float(usdt_stake_amount))
-
-                    usdt_after, clog_after = st.columns(2)
-                    usdt_after.metric("USDT balance after stake", "1")
-                    clog_after.metric("Clog balance after stake", "1")
-
-
-
-
+                with st.container():
+                    usdt_stake_amount = st.text_input("Enter amount of USDT to stake")
+                    if st.button("Stake"):
+                        stake(float(usdt_stake_amount))
+                        usdt_balance = usdt_contract.functions.balanceOf(st.session_state["account"].address).call()
+                        clog_balance = clog_contract.functions.balanceOf(st.session_state["account"].address).call()
+                        right_col.metric("USDT balance after stake", usdt_balance / 10**18)
+                        right_col.metric("Clog balance after stake", clog_balance / 10**18)
 
 with tab4:
     with st.container():
         st.header("Arbitrage Trading")
+        
 
 with tab5:
     with st.container():
         st.header("Next Steps")
 
 st.markdown("---")
-
-
-
-st.markdown("---")
-
-
-# with st.empty():
-# if "account" in st.session_state:
-#     with st.container():
-#         st.write("Staking UI here")
-#         usdt_stake_amount = st.text_input("Enter amount of USDT to stake")
-#         if st.button("Stake"):
-#             st.write(usdt_stake_amount)
-
-
-
-
-
-
-# st.subheader("Stake USDT for CLOG")
-
-# usdt_contract = web3.eth.contract(address=usdt_address, abi=usdt_abi) 
-
-# sabot_staking_base_contract = web3.eth.contract(address=sabot_staking_contract_address, abi=staking_abi)
-
-# clog_contract = web3.eth.contract(address = clog_contract_address, abi=clog_abi)
-
-# if st.button("Stake"):
-#     usdt_stake_amount = st.number_input("Choose amount of USDT to Stake", )
-#     if usdt_stake_amount >= 1: 
-#         st.write(f"Staking {usdt_stake_amount} USDT tokens")
-
-#         # # when stake is pressed, use "user_wallet" to call approve method to of USDT token, passing in sabot staking contract address into the amount we are trying to stake. 
-#         usdt_contract.functions.approve(get_addresses("usdt_contract_address"), usdt_stake_amount).call() # @TODO: stuck
-
-#         # call stake method from sabot staking contract, passing in the same amount approved and USDT token address
-#         # staking USDT for sUSD, receiving CLOG 
-#         sabot_staking_base_contract.functions.stakeToken(usdt_stake_amount, usdt_address).call() # @TODO: stuck
-
-#         # # view transaction receipt, throw error if receipt is not valid
-#         result = web3.eth.get_transaction(transaction_hash) # how do i get transaction hash from remix?? # @TODO: stuck
-
-#         if result == None:
-#             st.write("Error: Transaction Receipt not found")
-#         return st.write(f"Your transaction hash: {result}")
-
-
-#         # # return amount of utility/CLOG token
-#         # sabot_staking_base_contract.functions.stakeToken().call()
-        
-#         # st.write("Congratulations, you are now the proud owner of {clog_amount} CLOG tokens!")
-#         # st.write("Thank you for participating!")
-
-    
-
-    
-# # account giving tokens need to approve, then contract can execute transfer from
-
-
-
-# # add in tabs for presentation. Look at sabot dashboard/console for examples on how to implement
-# Outline for Presentation:
-
-# Tab1 Intro/Project Outline:
-
-# Tab2 architechture
-
-# Tab3 Staking
-
-# Tab4 Swapping
-
-# Tab5 About/Next Steps
-
