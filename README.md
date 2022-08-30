@@ -201,16 +201,57 @@ If deploying in a test environment, deploy dependencies using **DeployTestAssets
         5. Open the contract and click on the `name` button.
         6. The name should display `USDT`
     2. Repeat the same steps for the `sUSD` and the `CurvePool` contracts.
+  
 
-7.   
+### 3. Deploy SabotStaking
 
-### 3. Deploy SabotStaking         (Yanick)
+1. Select the `"DeploySabotStaking.sol"` contract in the Remix IDE.
 
-*Instructions needed, additionally, video even better*
-*list addresses that need to be retrieved and how to do that*
+![DeploySabotStaking-Main](./images/readme/DeploySabotStaking_SelectContract.png)
+
+2. Select your assigned `Bot` wallet in Metamask (select one of the created wallet in the `"1. Allocate Wallet Addresses"` section of the README file and make sure it does not conflict).
+    * In `DEPLOY` -> `ACCOUNT` drop down menu, the address should echo exactly the latest selected wallet from Metamask (aka the `Bot` wallet).
+
+![DeploySabotStaking-BotWallet](./images/readme/DeploySabotStaking_BotWalet.png)
+
+3. In the `CONTRACT` drop down menu, select the `DeploySabotStakingAsset` contract. Open the `DEPLOY` menu.
+
+    * Fill-in the `VERSION` value in the edit box (ie. 1.18).
+    * Add the `BOT_WALLET_ADDRESS`. Copy/Paste either from the `ACCOUNT` drop down menu or from `Metamask`.
+    * Add the `BASE_TOKEN_ADDRESS` by pasting the `USDT` address from `DeployTestAsset` logs (see `Deploy Test Assets` section 5).
+    * Add the `TARGET_TOKEN_ADDRESS` by pasting the `sUSD` address from `DeployTestAsset` logs (see `Deploy Test Assets` section 5).
+    * Set the `BASE_TOKEN_INDEX` to `2` for `USDT`.
+    * Set the `TARGET_TOKEN_INDEX` to `3` for `sUSD`.
+    * Add the `CURVE_POOL_ADDRESS` by pasting the `Curve_Pool` address from `DeployTestAsset` logs (see `Deploy Test Assets` section 5).
+
+![DeploySabotStaking-BotWallet](./images/readme/DeploySabotStaking_Deploy.png)
+
+4. Once all the information has been completed press on `transact`. Your `Metamask` wallet will pop-up and resquest a confirmation. Press `Confirm`.
+
+![DeploySabotStaking-BotWallet](./images/readme/DeploySabotStaking_MetamaskConfirmation.png)
+
+5. Once confirmed, the `DeploySabotStakingAsset` contract will:
+    * Add a transaction log in the `log terminal` (bottom part of the UI) where you will retrieve the `CLOG Token` address and the `SabotStaking` contract address which will be needed for the `SabotStakingV1` contract.
+    * The contract also appears in the `Deployed Contracts` section to the bottom left side of the Remix UI.
+
+![DeploySabotStaking-BotWallet](./images/readme/DeploySabotStaking_logs.png)
+
+6. Congratulation! You've successfuly deployed the `DeploySabotStakingAsset` contract.
 
 ### 4. Configure REMIX IDE         (Yanick)
 *Instructions on how to configure REMIX IDE for Testing*
+
+1. Select the `"SabotStakingV1.sol"` contract in the Remix IDE.
+2. Verify that your `Bot` wallet is selected in Metamask and in your Remix `ACCOUNT` drop down menu.
+3. In the `CONTRACT` drop down menu, select the `SabotStakingV1` contract.
+4. Paste the `SabotStaking` contract address from the `DeploySabotStakingAsset` logs (see `Deploy SabotStaking` section 6) next to the `At Address` in the `Deploy` section.
+5. Click on the `At Address` button.
+
+![DeploySabotStaking-BotWallet](./images/readme/SabotStakingV1_Deploy.png)
+
+6. The contract will appears in the `Deployed Contracts` section to the bottom left side of the Remix UI.
+7. Open the contract and click on the `name` button.
+8. The name should display `USDT ==> sUSD | Clog`
 
 ### 5. Configure participant wallets   (Yanick)
 *Instructions on how to connect participant wallets, e.g. adding USDT sUSD and CLOG tokens, video even better*
@@ -225,6 +266,25 @@ If deploying in a test environment, deploy dependencies using **DeployTestAssets
 #### Automated arbitrage trading    (John)
 *Instructions on how to set up the monitor and / demo showing automated arbitrage trading, video even better**
 
+---
+
+### Cost Analysis
+An exploration of costs was conducted.  At the time of th analysis
+
+* gas fee = 10 gwei
+* 1 eth = $1,465.16
+
+| Transaction | Version | Gas | gwei | cost $(USD) |
+|-------------|---------|-----|-----|------| 
+| Deploy Test Assets |   -  | 4968102 | 49681020 | 126.92 |
+| Deploy SabotStaking Assets | non-proxy | 6784487 | 67844870 | 173.33 |
+| Deploy SabotStaking Assets | proxy | 9069888 | 90698880 | 231.72 |
+| Directly call Curve pool exchange method |  -  | 25457 | 254570 | 0.65037 |
+| Bot calling swap method | non-proxy | 51902 | 519020 | 1.3260 |
+| Bot calling swap method | proxy | 68661 | 686610 | 1.7541 |
+| ERC20 approval for staking |  -  | 46179 | 461790 | 1.1798 |
+| Staking | non-proxy | 130105 | 1301050 | 3.3239 |
+| Staking | proxy | 132993 | 1329930 | 3.3239 | 3.3977 |
 
 
 ---

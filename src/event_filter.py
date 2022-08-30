@@ -11,54 +11,93 @@ import os
 
 writer = None
 
-def handle_event(contract,event_raw):
-    global writer
-    receipt = w3.eth.getTransactionReceipt(event_raw['transactionHash'])
-    print (receipt)
-    swapped_event = contract.events.Swapped().processReceipt(receipt)
-    print(f"swapped_event: {swapped_event}")
-    minted_event = contract.events.Minted().processReceipt(receipt)
-    print(f"minted_event: {minted_event}")
-    staked_event = contract.events.Staked().processReceipt(receipt)  
-    print(f"staked_event: {staked_event}")
+def make_event_record(type,args):
     event_record = {
         'time':datetime.now().timestamp(),
-        'type':None,
+        'type':type,
         'sellToken':None,
         'sellTokenAmount':None,
         'buyToken':None,
         'buyTokenAmount':None,
         'utilityToken':None,
         'utilityTokenAmount':None,
-        'owner':None
+        'utilityTokenTotalSupply':None,
+        'balanceOfBaseToken':None,
+        'balanceOfTargetToken':None,
+        'owner':None,
+        'exchangeRate':None
     }
+    if args is not None:
+        for key,value in args.items():
+            event_record[key]=value
+    return event_record
+
+def handle_event(contract,event_raw):
+    global writer
+    receipt = w3.eth.getTransactionReceipt(event_raw['transactionHash'])
+    swapped_event = contract.events.Swapped().processReceipt(receipt)
+    minted_event = contract.events.Minted().processReceipt(receipt)
+    burned_event = contract.events.Burned().processReceipt(receipt)
+    staked_event = contract.events.Staked().processReceipt(receipt)  
+    unstaked_event = contract.events.Unstaked().processReceipt(receipt)  
+    exchange_rate_event = contract.events.ExchangeRate().processReceipt(receipt)  
+    # events=[]
     if swapped_event is not None and len(swapped_event)>0 and 'event' in swapped_event[0]:
-        event_record['type']='Swapped'
         if 'args' in swapped_event[0]:
-            for key,value in swapped_event[0]['args'].items():
-                event_record[key]=value
+            # events.append(make_event_record('Swapped',swapped_event[0]['args']))
+            event_record = make_event_record('Swapped',swapped_event[0]['args'])
+            print(event_record)
+            if writer is not None:
+                writer.writerow(event_record)     
     if minted_event is not None and len(minted_event)>0 and 'event' in minted_event[0]:
-        event_record['type']='Minted'
         if 'args' in minted_event[0]:
-            for key,value in minted_event[0]['args'].items():
-                event_record[key]=value
+            # events.append(make_event_record('Minted',minted_event[0]['args']))
+            event_record = make_event_record('Minted',minted_event[0]['args'])
+            print(event_record)
+            if writer is not None:
+                writer.writerow(event_record)     
+    if burned_event is not None and len(burned_event)>0 and 'event' in burned_event[0]:
+        if 'args' in burned_event[0]:
+            # events.append(make_event_record('Burned',burned_event[0]['args']))
+            event_record = make_event_record('Burned',burned_event[0]['args'])
+            print(event_record)
+            if writer is not None:
+                writer.writerow(event_record)     
     if staked_event is not None and len(staked_event)>0 and 'event' in staked_event[0]:
-        event_record['type']='Staked'
         if 'args' in staked_event[0]:
-            for key,value in staked_event[0]['args'].items():
-                event_record[key]=value
-    print(event_record)
-    if writer is not None:
-        writer.writerow(event_record)     
-        # writer.
+            # events.append(make_event_record('Staked',staked_event[0]['args']))
+            event_record = make_event_record('Staked',staked_event[0]['args'])
+            print(event_record)
+            if writer is not None:
+                writer.writerow(event_record)     
+    if unstaked_event is not None and len(unstaked_event)>0 and 'event' in unstaked_event[0]:
+        if 'args' in unstaked_event[0]:
+            # events.append(make_event_record('Unstaked',unstaked_event[0]['args']))
+            event_record = make_event_record('Unstaked',unstaked_event[0]['args'])
+            print(event_record)
+            if writer is not None:
+                writer.writerow(event_record)     
+    if exchange_rate_event is not None and len(exchange_rate_event)>0 and 'event' in exchange_rate_event[0]:
+        if 'args' in exchange_rate_event[0]:
+            # events.append(make_event_record('ExchangeRate',exchange_rate_event[0]['args']))
+            event_record = make_event_record('ExchangeRate',exchange_rate_event[0]['args'])
+            print(event_record)
+            if writer is not None:
+                writer.writerow(event_record)     
+
+    # for event_record in events:
+    #     print(event_record)
+    #     if writer is not None:
+    #         writer.writerow(event_record)     
+        
 
 def log_loop(contract,contract_filter, poll_interval):
     while True:
         logs = w3.eth.getFilterChanges(contract_filter.filter_id)
-        for event in logs:
+        print (f"got {len(logs)} changes")
+        if len(logs)>0:
+            event = logs[0]
             handle_event(contract,event)
-        # for event in event_filter.get_new_entries():
-        #     handle_event(event)
         time.sleep(poll_interval)
 
 def main():
@@ -72,7 +111,11 @@ def main():
         'buyTokenAmount':None,
         'utilityToken':None,
         'utilityTokenAmount':None,
-        'owner':None
+        'utilityTokenTotalSupply':None,
+        'balanceOfBaseToken':None,
+        'balanceOfTargetToken':None,
+        'owner':None,
+        'exchangeRate':None
     }
 
     event_log_path = Path(os.environ['EVENT_LOG'])
@@ -82,9 +125,9 @@ def main():
             writer.writeheader()    
     # block_filter = w3.eth.filter('latest')
     abi=None
-    with open(Path('data/SabotSwapBase_abi.json'),'r') as abi_file:
+    with open(Path(os.environ['SABOT_STAKING_ABI']),'r') as abi_file:
         abi = json.load(abi_file)    
-    contract_address = '0x3a83052fd36aFb70adC754eD380EE3EBCD295400'
+    contract_address = os.environ['SABOT_STAKING_ADDRESS']
    
     contract = w3.eth.contract(address = contract_address , abi = abi)    
     contract_filter = w3.eth.filter({"address": contract_address})
@@ -95,19 +138,3 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-# (
-#     AttributeDict(
-#         {'args': AttributeDict(
-#             {'sellToken': '0x04324f495a27fa08d5E8CC3F01178F55C46D53bf', 
-#             'sellTokenAmount': 777770000000, 
-#             'buyToken': '0x6e8d8c332fAF8b71E312F5377D9dd94baDE0d744', 
-#             'buyTokenAmount': 42}), 
-#          'event': 'SabotSwap', 
-#          'logIndex': 0, 
-#          'transactionIndex': 0, 
-#          'transactionHash': HexBytes('0xb7dbc427ceffb328067823169b79461ffeffc0811a585e2dfc1ab691d8ef53df'), 
-#          'address': '0x3830a870dE6b28AF2999A8A6944e9D6042A82861', 
-#          'blockHash': HexBytes('0xa13bdd7e7684152f3ff6b59a6d4a2057b7ccf829029844d46f61273bf4378b15'), 
-#          'blockNumber': 39})
-# ,)
