@@ -37,7 +37,7 @@ def connect_RPC_server(env_path='./.env'):
     """
     try:
         load_dotenv(env_path)
-        rpc_server_address = os.getenv("RPC_SERVER_ADDRESS")
+        rpc_server_address = os.getenv("GANACHE_URL")
         return Web3(Web3.HTTPProvider(rpc_server_address))
     except:
         error_code=404
@@ -185,7 +185,7 @@ def add_info_to_env(key,info, env_path='./.env'):
 
 def open_abi_from_env(env_path='./.env'):    
     try:
-        abi_path = os.getenv("ABI_PATH")        
+        abi_path = os.getenv("SABOT_STAKING_ABI_FILE")        
         with open(abi_path,'r') as abi_file:
             abi = json.load(abi_file)
         return abi
@@ -225,7 +225,7 @@ def sabot_swap(account, env_path='./.env'):
     sabot_swap_abi = open_abi_from_env()
     
     # Read in sabot contract address
-    sabot_contract_address = open_contract_address('SABOT_SWAP_CONTRACT')
+    sabot_contract_address = open_contract_address('SABOT_STAKING_BASE_CONTRACT_ADDRESS')
     
     # # Generate Contract
     contract = w3.eth.contract(address = sabot_contract_address, abi = sabot_swap_abi)
@@ -261,17 +261,17 @@ if __name__=='__main__':
                     coin='eth',
                     account_num = 0,
                     change = 0,
-                    address_index = 4,
+                    address_index = 3,
                 )
     print(f'Accout = {account.address}')
 
-    if 'ABI_PATH' not in os.environ:
-        print(f'ABI_PATH not in .env')
+    if 'SABOT_STAKING_ABI_FILE' not in os.environ:
+        print(f'SABOT_STAKING_ABI_FILE not in .env')
         print(f'Terminating ...')
         sys.exit()
 
-    if 'SABOT_SWAP_CONTRACT' not in os.environ:
-        print(f'SABOT_SWAP_CONTRACT not in .env')
+    if 'SABOT_STAKING_BASE_CONTRACT_ADDRESS' not in os.environ:
+        print(f'SABOT_STAKING_BASE_CONTRACT_ADDRESS not in .env')
         print(f'Terminating ...')
         sys.exit()
 

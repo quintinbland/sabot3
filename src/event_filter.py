@@ -97,7 +97,6 @@ def handle_event(contract,event_raw):
 def log_loop(contract,contract_filter, poll_interval):
     while True:
         logs = w3.eth.getFilterChanges(contract_filter.filter_id)
-        print (f"got {len(logs)} changes")
         if len(logs)>0:
             event = logs[0]
             handle_event(contract,event)
@@ -129,9 +128,9 @@ def main():
             writer.writeheader()    
     # block_filter = w3.eth.filter('latest')
     abi=None
-    with open(Path(os.environ['ABI_PATH']),'r') as abi_file:
+    with open(Path(os.environ['SABOT_STAKING_ABI_FILE']),'r') as abi_file:
         abi = json.load(abi_file)    
-    contract_address = os.environ['SABOT_SWAP_CONTRACT']
+    contract_address = os.environ['SABOT_STAKING_BASE_CONTRACT_ADDRESS']
    
     contract = w3.eth.contract(address = contract_address , abi = abi)    
     contract_filter = w3.eth.filter({"address": contract_address})
