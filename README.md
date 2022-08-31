@@ -263,13 +263,24 @@ If deploying in a test environment, deploy dependencies using **DeployTestAssets
 #### Participant Staking      (Quintin)
 *Instructions / demo on how a participant stakes USDT in order to join the pool and receives CLOG, video even better**
 
+Step 1: Check
+
+Step 2: Navigate to SaBot Staking UI
+
+Step 3:Enter your wallet address
+
+Step 4: Select amount of USDT you'd like to stake
+
+Step 5: Check balances in your account 
+
+
 #### Automated arbitrage trading    (John)
 *Instructions on how to set up the monitor and / demo showing automated arbitrage trading, video even better**
 
 ---
 
 ### Cost Analysis
-An exploration of costs was conducted.  At the time of th analysis
+An exploration of costs was conducted.  At the time of the analysis
 
 * gas fee = 10 gwei
 * 1 eth = $1,465.16
