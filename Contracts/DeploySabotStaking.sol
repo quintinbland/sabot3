@@ -29,7 +29,7 @@ contract DeploySabotStakingAssets{
         int128 base_token_index,
         int128 target_token_index,
         address curve_pool_address
-        ) 
+        )
     {
         // create utility token instance 
         //set the SabotStaking contract as the Minter for this token
@@ -56,7 +56,7 @@ contract DeploySabotStakingAssets{
             base_token_index,
             target_token_index
         );
-        // 333333333333333333
+
         // set utility token admin to the desginated owner address
         // set the minter to the sabotstaking contract address
         // and revoke these roles for the deployment contract address
