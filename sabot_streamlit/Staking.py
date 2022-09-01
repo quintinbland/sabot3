@@ -195,19 +195,23 @@ st.set_page_config(layout="wide", page_title="Sabot")
 
 
 with st.container():
-    logo_col, title_col = st.columns([25,100])
+    logo_col, title_col = st.columns([8,100])
     with logo_col:
         st.image("images/sabot_logo.png", width=150)
     with title_col:
-        st.markdown('<div><span style="font-size: 56px; font-weight: 700; position: relative; top: 20px;">SaBot</span></div>', 
+        st.markdown('<div><span style="font-size: 56px; font-weight: 700; position: relative; top: 20px;">SaBot Staking</span></div>', 
         unsafe_allow_html=True)
 
 
-roadmap, solution, tokenomics, staking, dashboard, whats_next, devs = st.tabs(["Roadmap", "Solution", "Tokenomics", "Staking", "Dashboard", "What's Next","Developers"])
+roadmap, solution, tokenomics, staking, dashboard, whats_next, devs = st.tabs(["Roadmap", "Solution", "Tokenomics", "Staking", "Dashboard", "What's Next","Team"])
 
 with roadmap:
     with st.container():
         st.title("Evolution of SaBot")
+        st.markdown(" ")
+        st.markdown(" ")
+        st.markdown(" ")
+        st.markdown(" ")
     col1, col2 = st.columns(2)
 
     with col1:
@@ -225,8 +229,6 @@ with roadmap:
     st.markdown("---")
     st.markdown("<h3 style='text-align: left; color: light grey;'>PROJECT 3 | SaBot Staking Pool</h3>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: left; color: light grey;'>Leveraging the blockchain to realize a secure, low cost and scalable solution for stable coin arbitrage trading.</p>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: left; color: light grey;'>Integrated web3 applications to work with SaBot.</p>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: left; color: light grey;'>Creating a trustless experience for participants to interact with the bot on-chain.</p>", unsafe_allow_html=True)
     st.text(" ")
     st.text(" ")
     st.text(" ")
@@ -247,7 +249,6 @@ with solution:
         st.title("Solution")
         # diagrams
         st.image("images/sabot-solution.png")
-        st.image("images/sabotstaking-class-diagram.png")
         st.image("images/clog-class-diagram.png")
         st.markdown("""
         ### Cost Analysis
@@ -273,15 +274,18 @@ An exploration of costs was conducted.  At the time of the analysis
 with tokenomics:
     with st.container():
         st.title("SaBot Tokenomics")
-        st.markdown("""
-        #### Clog: ERC20 Utility Token
-        ####  Purpose: To fund the automated trading bot
-        #### Initial Exchange Rate: 1 USDT = 1 CLOG
-        * Subsequent staking will be at prevailing clog price.
-        #### Clog Price 
-        * As the porfolio value increases, the price of the clog upon staking will adjust to reflect change in portfolio value
-        * Clog Price = (Portfolio Value / Total Clog Supply)
-        """)
+        st.markdown("---")
+
+        st.markdown("<h3 style='text-align: left; color: light grey;'>CLOG</h3>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: left; color: light grey;'>ERC20 Utility Token.</p>", unsafe_allow_html=True)
+        st.markdown("<h3 style='text-align: left; color: light grey;'>Purpose</h3>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: left; color: light grey;'>Fund the automated trading bot.</p>", unsafe_allow_html=True)
+        st.markdown("<h3 style='text-align: left; color: light grey;'>Initial Exchange Rate</h3>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: left; color: light grey;'>1 USDT = 1 CLOG</p>", unsafe_allow_html=True)
+        st.caption("Subsequent staking will be at prevailing clog price.")
+        st.markdown("<h3 style='text-align: left; color: light grey;'>CLOG Price</h3>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: left; color: light grey;'>As the porfolio value increases, the price of the clog upon staking will adjust to reflect change in portfolio value.</p>", unsafe_allow_html=True)
+        st.latex(r'''Clog Price = \left(\frac{Portfolio Value}{Total Clog Supply}\right)''')
 
 with staking:
     clog_abi = get_clog_abi()
@@ -347,14 +351,11 @@ with whats_next:
         st.markdown("""
         * Create governance token with rewards
         * Multi-sig wallet
-        * Unstaking / burning
-        * DAO with proposal process and voting
         * Deploying on test chain.
         * Refactoring contracts to lower transaction costs.
         * Improve web3 UI.
         * Staking pool with other crypto pairs.
-        * Broaden support for other liquidity pools
-        * Returning profits to stakeholders via MEV
+        * Broaden support for other trading platforms
         """)
 
 
