@@ -14,19 +14,23 @@ contract DeployTestAssets{
     // CurvePool
     // starting USDT balance
     //    set up each of the provided wallet addresses with the specified amount of USDT 
+    address public usdt_address;
     event Deployed(string name,address contract_address);
     constructor(
         uint256 initialAmount,
         address[] memory wallets_to_initialize
     ) {
-        // Create a new instance of the KaseiCoin contract.
         USDT usdt = new USDT(msg.sender,initialAmount, wallets_to_initialize);
+        usdt_address=address(usdt);
         emit Deployed(usdt.name(),address(usdt));
         
         SUSD susd = new SUSD(msg.sender,0, new address[](0));
+
         emit Deployed(susd.name(),address(susd));
  
+
         CurvePool pool = new CurvePool();
+
         emit Deployed(pool.name(),address(pool));
     }
 }
