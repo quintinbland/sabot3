@@ -185,7 +185,7 @@ def add_info_to_env(key,info, env_path='./.env'):
 
 def open_abi_from_env(env_path='./.env'):    
     try:
-        abi_path = os.getenv("SABOT_STAKING_ABI_FILE")        
+        abi_path = os.getenv("SABOTSTAKING_ABI")        
         with open(abi_path,'r') as abi_file:
             abi = json.load(abi_file)
         return abi
@@ -225,7 +225,7 @@ def sabot_swap(account, env_path='./.env'):
     sabot_swap_abi = open_abi_from_env()
     
     # Read in sabot contract address
-    sabot_contract_address = open_contract_address('SABOT_STAKING_BASE_CONTRACT_ADDRESS')
+    sabot_contract_address = open_contract_address('SABOT_SWAP_ADDRESS')
     
     # # Generate Contract
     contract = w3.eth.contract(address = sabot_contract_address, abi = sabot_swap_abi)
@@ -263,15 +263,15 @@ if __name__=='__main__':
                     change = 0,
                     address_index = 3,
                 )
-    print(f'Accout = {account.address}')
+    print(f'Account = {account.address}')
 
-    if 'SABOT_STAKING_ABI_FILE' not in os.environ:
-        print(f'SABOT_STAKING_ABI_FILE not in .env')
+    if 'SABOTSTAKING_ABI' not in os.environ:
+        print(f'SABOTSTAKING_ABI not in .env')
         print(f'Terminating ...')
         sys.exit()
 
-    if 'SABOT_STAKING_BASE_CONTRACT_ADDRESS' not in os.environ:
-        print(f'SABOT_STAKING_BASE_CONTRACT_ADDRESS not in .env')
+    if 'SABOT_SWAP_ADDRESS' not in os.environ:
+        print(f'SABOT_SWAP_ADDRESS not in .env')
         print(f'Terminating ...')
         sys.exit()
 
