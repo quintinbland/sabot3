@@ -203,7 +203,7 @@ st.set_page_config(layout="wide", page_title="Sabot")
 
 
 with st.container():
-    logo_col, title_col = st.columns([8,100])
+    logo_col, title_col = st.columns([10,90])
     with logo_col:
         st.image("images/sabot_logo.png", width=150)
     with title_col:
@@ -415,6 +415,7 @@ with dashboard:
         with open('sabot_streamlit/style2.css') as f:
             st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
         st.session_state['model_profit']=False
+        st.markdown(f'<img src="./images/live.png" alt="live" width="100">', unsafe_allow_html=True)
         st.markdown("# Trading Dashboard")
         st.markdown("##### Bot is now funded, lets trade!")
         model_profit=st.checkbox("Model Profit")
