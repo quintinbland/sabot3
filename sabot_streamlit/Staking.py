@@ -346,6 +346,8 @@ with staking:
                 c2.metric(f"Connected wallet: ", user_wallet)
                 c2.metric("USDT balance", usdt_balance / 10**6)
                 c2.metric("Clog balance", clog_balance / 10**18)
+                c2.markdown("---")
+
                 with c1:
                     usdt_stake_amount = st.text_input("Enter amount of USDT to stake")
                     if st.button("Stake"):
@@ -357,6 +359,7 @@ with staking:
                         c2.metric(f"Connected wallet: ", user_wallet)
                         c2.metric("USDT balance", usdt_balance / 10**6)
                         c2.metric("Clog balance", clog_balance / 10**18)
+                        c2.markdown("---")
 
         
 with whats_next:
