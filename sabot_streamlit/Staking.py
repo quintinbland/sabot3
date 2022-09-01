@@ -247,28 +247,33 @@ with roadmap:
 with solution:
     with st.container():
         st.title("Solution")
-        # diagrams
-        st.image("images/sabot-solution.png")
-        st.image("images/clog-class-diagram.png")
-        st.markdown("""
-        ### Cost Analysis
-An exploration of costs was conducted.  At the time of the analysis
+        col_sol1, col_sol2 = st.columns(2)
 
-* gas fee = 10 gwei
-* 1 eth = $1,465.16
+        with col_sol1:
+            st.header("Architecture")
+            st.image("images/sabot_architecture.png")
 
-| Transaction | Version | Gas | gwei | cost $(USD) |
-|-------------|---------|-----|-----|------| 
-| Deploy Test Assets |   -  | 4968102 | 49681020 | 126.92 |
-| Deploy SabotStaking Assets | non-proxy | 6784487 | 67844870 | 173.33 |
-| Deploy SabotStaking Assets | proxy | 9069888 | 90698880 | 231.72 |
-| Directly call Curve pool exchange method |  -  | 25457 | 254570 | 0.65037 |
-| Bot calling swap method | non-proxy | 51902 | 519020 | 1.3260 |
-| Bot calling swap method | proxy | 68661 | 686610 | 1.7541 |
-| ERC20 approval for staking |  -  | 46179 | 461790 | 1.1798 |
-| Staking | non-proxy | 130105 | 1301050 | 3.3239 |
-| Staking | proxy | 132993 | 1329930 | 3.3239 | 3.3977 |
-""")
+        with col_sol2:
+            st.header("Class Diagram")
+            st.image("images/sabot_class_diagram2.png")
+
+        st.markdown("---")
+
+        st.markdown("<h2 style='text-align: left; color: light grey;'>Cost Analysis</h2>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: left; color: light grey;'>Exploration of Costs Conducted at the Time of the Analysis.</p>", unsafe_allow_html=True)
+
+        GasFee01, GasFee02 = st.columns(2)
+
+        GasFee01.metric("GAS FEE", "10 gwei")
+        GasFee02.metric("","")
+
+        GasFee03, GasFee04 = st.columns(2)
+
+        GasFee03.metric("ETHEREUM", "$1,465.16")
+        GasFee04.metric("", "")
+
+        cost_analysis = pd.read_csv("sabot_streamlit/sabot_cost_analysis.csv")
+        st.dataframe(cost_analysis)
 
 
 with tokenomics:
