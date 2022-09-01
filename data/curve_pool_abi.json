@@ -1,0 +1,74 @@
+[
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "int128",
+				"name": "i",
+				"type": "int128"
+			},
+			{
+				"indexed": false,
+				"internalType": "int128",
+				"name": "j",
+				"type": "int128"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "dx",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "min_dy",
+				"type": "uint256"
+			}
+		],
+		"name": "PoolSwap",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "int128",
+				"name": "i",
+				"type": "int128"
+			},
+			{
+				"internalType": "int128",
+				"name": "j",
+				"type": "int128"
+			},
+			{
+				"internalType": "uint256",
+				"name": "dx",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "min_dy",
+				"type": "uint256"
+			}
+		],
+		"name": "exchange",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
