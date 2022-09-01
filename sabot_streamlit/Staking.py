@@ -415,7 +415,7 @@ with dashboard:
         with open('sabot_streamlit/style2.css') as f:
             st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
         st.session_state['model_profit']=False
-        st.markdown(f'<img src="./images/live.png" alt="live" width="100">', unsafe_allow_html=True)
+        st.markdown(f'<img src="https://user-images.githubusercontent.com/9788128/187974396-613bf51e-edb7-4cac-963e-37b05ff8a10c.png" alt="live" width="60">', unsafe_allow_html=True)
         st.markdown("# Trading Dashboard")
         st.markdown("##### Bot is now funded, lets trade!")
         model_profit=st.checkbox("Model Profit")
