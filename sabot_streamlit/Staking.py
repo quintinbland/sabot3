@@ -160,7 +160,7 @@ st.session_state['model_profit']=False
 
 def get_df():
     block_number = get_w3().eth.get_block('latest')['number']
-    print(block_number)
+    # print(block_number)
     usdt_decimals=6
     susd_decimals=18
     df = pd.read_csv('data/sabot_events.log')
@@ -326,7 +326,7 @@ with staking:
                     usdt_balance = usdt_contract.functions.balanceOf(user_wallet).call()
                     clog_balance = clog_contract.functions.balanceOf(user_wallet).call()
                     with right_col:
-                        right_col.metric("USDT balance", usdt_balance / 10**18)
+                        right_col.metric("USDT balance", usdt_balance / 10**6)
                         right_col.metric("Clog balance", clog_balance / 10**18)
 
 
@@ -337,7 +337,7 @@ with staking:
                         stake(float(usdt_stake_amount))
                         usdt_balance = usdt_contract.functions.balanceOf(user_wallet).call()
                         clog_balance = clog_contract.functions.balanceOf(user_wallet).call()
-                        right_col.metric("USDT balance after stake", usdt_balance / 10**18)
+                        right_col.metric("USDT balance after stake", usdt_balance / 10**6)
                         right_col.metric("Clog balance after stake", clog_balance / 10**18)
 
         
