@@ -128,9 +128,9 @@ def main():
             writer.writeheader()    
     # block_filter = w3.eth.filter('latest')
     abi=None
-    with open(Path(os.environ['SABOT_STAKING_ABI_FILE']),'r') as abi_file:
+    with open(Path(os.environ['SABOTSTAKING_ABI']),'r') as abi_file:
         abi = json.load(abi_file)    
-    contract_address = os.environ['SABOT_STAKING_BASE_CONTRACT_ADDRESS']
+    contract_address = os.environ['SABOT_SWAP_ADDRESS']
    
     contract = w3.eth.contract(address = contract_address , abi = abi)    
     contract_filter = w3.eth.filter({"address": contract_address})
