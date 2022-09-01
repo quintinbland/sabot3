@@ -14,11 +14,11 @@ col_sol1, col_sol2 = st.columns(2)
 
 with col_sol1:
     st.header("Architecture")
-    st.image("./images/sabot_solution_02.png")
+    st.image("../images/sabot_architecture.png")
 
 with col_sol2:
     st.header("Class Diagram")
-    st.image("images/sabot_class_diagram.png")
+    st.image("../images/sabot_class_diagram2.png")
 
 st.markdown("---")
 

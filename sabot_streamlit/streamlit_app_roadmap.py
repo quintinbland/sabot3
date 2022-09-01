@@ -14,13 +14,13 @@ with col1:
     st.markdown("<h3 style='text-align: center; color: light grey;'>PROJECT 1 | StableOps</h3>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; color: light grey;'>Quantitative anaylsis demonstrating that arbitrage trading of stable coin volatility could be profitable.</p>", unsafe_allow_html=True)
     st.markdown("---")
-    st.image("./images/sabot_project_01_720.png")
+    st.image("../images/sabot_project_01_720.png")
 
 with col2:
     st.markdown("<h3 style='text-align: center; color: light grey;'>PROJECT 2 | SaBot</h3>", unsafe_allow_html=True)
     st.markdown("Demonstrated that ML models could be leveraged to implement a successful automated arbitrage trading strategy.")
     st.markdown("---")
-    st.image("./images/sabot_project_02_720.png")
+    st.image("../images/sabot_project_02_720.png")
 
 st.markdown("---")
 st.markdown("<h3 style='text-align: center; color: light grey;'>PROJECT 3 | SaBot Staking Pool</h3>", unsafe_allow_html=True)
