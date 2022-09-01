@@ -20,6 +20,8 @@ contract DeploySabotStakingAssets{
     bytes32 public constant DEFAULT_ADMIN_ROLE = 0x00;
     bytes32 public constant UPGRADER_ROLE = keccak256("UPGRADER_ROLE");
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+    address public clog_address;
+    address public sabotstaking_address;
 
     event Deployed(string name,address contract_address);
     constructor(
@@ -36,7 +38,7 @@ contract DeploySabotStakingAssets{
         Clog clog = new Clog();
         emit Deployed(clog.name(),address(clog));
 
-        // in order for conversion algofithm to safely work, base token decimals must be < = utility token decimals
+        // in order for conversion algofithm to safely work, base token decimals must be < = utility token 
         require(clog.decimals() >= ERC20(base_token_address).decimals(),"Invalid token configuration.  Base token decimals must be less than or equal to utility token decimals.");
 
         // instantiate logic contract
@@ -74,6 +76,7 @@ contract DeploySabotStakingAssets{
 
         // indicate sabotstaking contract deployment is completed
         emit Deployed(SabotStakingV1(address(proxy_contract)).name(),address(proxy_contract));
-
+        clog_address=address(clog);
+        sabotstaking_address=address(proxy_contract);
     }
 }

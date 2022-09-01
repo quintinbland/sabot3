@@ -15,6 +15,8 @@ contract DeployTestAssets{
     // starting USDT balance
     //    set up each of the provided wallet addresses with the specified amount of USDT 
     address public usdt_address;
+    address public susd_address;
+    address public pool_address;
     event Deployed(string name,address contract_address);
     constructor(
         uint256 initialAmount,
@@ -25,12 +27,12 @@ contract DeployTestAssets{
         emit Deployed(usdt.name(),address(usdt));
         
         SUSD susd = new SUSD(msg.sender,0, new address[](0));
-
+        susd_address=address(susd);
         emit Deployed(susd.name(),address(susd));
- 
+
 
         CurvePool pool = new CurvePool();
-
+        pool_address=address(pool);
         emit Deployed(pool.name(),address(pool));
     }
 }

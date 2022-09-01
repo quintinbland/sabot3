@@ -67,7 +67,7 @@ st.set_page_config(layout="wide", page_title="Sabot")
 with st.container():
     logo_col, title_col = st.columns([25,100])
     with logo_col:
-        st.image("sabot_streamlit/images/sabot_logo.png", width=150)
+        st.image("images/sabot_logo.png", width=150)
     with title_col:
         st.markdown('<div><span style="font-size: 56px; font-weight: 700; position: relative; top: 20px;">SaBot</span></div>', 
         unsafe_allow_html=True)
