@@ -57,7 +57,10 @@ def get_latest():
     else:
         portfolio_value = latest['balanceOfBaseToken']/10**usdt_decimals + latest['balanceOfTargetToken']/10**susd_decimals
         st.session_state['portfolio_value']=portfolio_value
-    clog_price=portfolio_value / latest['utilityTokenTotalSupply']
+    clog_price=0
+    
+    if latest['utilityTokenTotalSupply'] != 0:
+        clog_price=portfolio_value / latest['utilityTokenTotalSupply']
     return clog_price,latest['utilityTokenTotalSupply'],portfolio_value,latest['block_number']
 df = get_df()
 # ************* Streamlit View Below ***********************

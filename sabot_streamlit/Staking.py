@@ -105,19 +105,22 @@ def get_usdt_abi():
             st.session_state["usdt_abi"] = abi
     return st.session_state["usdt_abi"]
 
-def stake(amount):
+def stake(account, amount):
 
     clog_abi = get_clog_abi()
     clog_address = get_addresses()["clog_address"]
+    print(f"clog_address={clog_address}")
     clog_contract = get_w3().eth.contract(address = clog_address, abi = clog_abi)
     usdt_abi = get_usdt_abi()
     usdt_address = get_addresses()["usdt_address"]
     usdt_contract = get_w3().eth.contract(address=usdt_address, abi=usdt_abi)
+    print(f"usdt_address={usdt_address}")
     sabot_staking_abi = get_sabot_staking_abi()
     sabot_staking_address = get_addresses()["sabot_staking_contract_address"]
     sabot_staking_contract = get_w3().eth.contract(address=sabot_staking_address, abi=sabot_staking_abi)
-    account = st.session_state["account"]
-
+    print(f"sabot_staking_address={sabot_staking_address}")
+    # account = st.session_state["account"]
+    # print(f"account={account.address}")
 
     try:
         # 1st call to usdt decimals
@@ -128,16 +131,16 @@ def stake(amount):
         # 2nd call to usdt approve function. Getting transaction receipt
         tx_hash = usdt_contract.functions.approve(sabot_staking_address, usdt_in_decimals).transact({'from': account.address , 'gas': 3000000})
         receipt = get_w3().eth.getTransactionReceipt(tx_hash)
-
+    
         approval_event = usdt_contract.events.Approval().processReceipt(receipt)[0]
         # block_number = sabot_staking_contract.events.Staked().processReceipt(receipt)[1]
         if approval_event is not None and "event" in approval_event and approval_event["event"]=="Approval":
-            # st.write(f"Approval of {usdt_in_decimals}")
+            st.write(f"{sabot_staking_address} approved for {usdt_in_decimals} USDT")
             # print(approval_event)
         
             # call staking method, pass in approved amount and USDT contract
             tx_hash = sabot_staking_contract.functions.stakeTokens(usdt_in_decimals, usdt_address).transact({'from': account.address , 'gas': 30000000})
-            # print(tx_hash)
+            print(tx_hash)
             receipt = get_w3().eth.getTransactionReceipt(tx_hash)
 
             # After approval, issue CLOG 
@@ -182,10 +185,14 @@ def get_latest():
         portfolio_value = portfolio_value*1.015
         st.session_state['portfolio_value'] = portfolio_value
     else:
-        portfolio_value = latest['balanceOfBaseToken']/10**usdt_decimals + latest['balanceOfTargetToken']/10**susd_decimals
+        portfolio_value = float(latest['balanceOfBaseToken'])/10**usdt_decimals + float(latest['balanceOfTargetToken'])/10**susd_decimals
         st.session_state['portfolio_value']=portfolio_value
-    clog_price=portfolio_value / latest['utilityTokenTotalSupply']
-    return clog_price,latest['utilityTokenTotalSupply'],portfolio_value,latest['block_number']
+        print(f"latest['utilityTokenTotalSupply']={float(latest['utilityTokenTotalSupply'])}. type:{type(float(latest['utilityTokenTotalSupply']))}")
+        print(f"portfolio_value={portfolio_value}. type:{type(portfolio_value)}")
+        clog_price=0
+    if latest['utilityTokenTotalSupply'] != 0:
+        clog_price=portfolio_value / float(latest['utilityTokenTotalSupply'])
+    return clog_price,int(latest['utilityTokenTotalSupply']),portfolio_value,latest['block_number']
 df = get_df()
 
 
@@ -331,7 +338,6 @@ with staking:
                     st.write(f"Unable to connect to {account}.")
                 else:
                     st.write("Connected successfully")               
-                    st.session_state["account"] = account
                     usdt_balance = usdt_contract.functions.balanceOf(user_wallet).call()
                     clog_balance = clog_contract.functions.balanceOf(user_wallet).call()
                     with right_col:
@@ -339,15 +345,14 @@ with staking:
                         right_col.metric("Clog balance", clog_balance / 10**18)
 
 
-            if "account" in st.session_state:
-                with st.container():
-                    usdt_stake_amount = st.text_input("Enter amount of USDT to stake")
-                    if st.button("Stake"):
-                        stake(float(usdt_stake_amount))
-                        usdt_balance = usdt_contract.functions.balanceOf(user_wallet).call()
-                        clog_balance = clog_contract.functions.balanceOf(user_wallet).call()
-                        right_col.metric("USDT balance after stake", usdt_balance / 10**6)
-                        right_col.metric("Clog balance after stake", clog_balance / 10**18)
+                    with st.container():
+                        usdt_stake_amount = st.text_input("Enter amount of USDT to stake")
+                        if st.button("Stake"):
+                            stake(account, float(usdt_stake_amount))
+                            usdt_balance = usdt_contract.functions.balanceOf(user_wallet).call()
+                            clog_balance = clog_contract.functions.balanceOf(user_wallet).call()
+                            right_col.metric("USDT balance after stake", usdt_balance / 10**6)
+                            right_col.metric("Clog balance after stake", clog_balance / 10**18)
 
         
 with whats_next:
@@ -409,20 +414,20 @@ with dashboard:
             st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
         st.session_state['model_profit']=False
         st.markdown("# Trading Dashboard")
-        st.markdown("##### Bot is now funded, lets trade!")
-        model_profit=st.checkbox("Model Profit")
-        st.session_state['model_profit']=model_profit
-        with st.empty():
-            done = False
-            loop = 100
-            while not done:
-                df = get_df()
-                with st.container():
-                    a1, a2, a3, a4 = st.columns(4)
-                    clog_price,clog_supply,portfolio_value,block_number=get_latest()
-                    a1.metric("CLOG Price", clog_price)
-                    a2.metric("CLOGs in circulatiuon", clog_supply)
-                    a3.metric("Total Portfolio Value", portfolio_value)
-                    a4.metric("Current Block Number", block_number)
-                    st.dataframe(df.iloc[-1:][['block_number','type','sellToken','sellTokenAmount','buyToken','balanceOfBaseToken','balanceOfTargetToken']])
-                sleep(3)
+        # st.markdown("##### Bot is now funded, lets trade!")
+        # model_profit=st.checkbox("Model Profit")
+        # st.session_state['model_profit']=model_profit
+        # with st.empty():
+        #     done = False
+        #     loop = 100
+        #     while not done:
+        #         df = get_df()
+        #         with st.container():
+        #             a1, a2, a3, a4 = st.columns(4)
+        #             clog_price,clog_supply,portfolio_value,block_number=get_latest()
+        #             a1.metric("CLOG Price", clog_price)
+        #             a2.metric("CLOGs in circulatiuon", clog_supply)
+        #             a3.metric("Total Portfolio Value", portfolio_value)
+        #             a4.metric("Current Block Number", block_number)
+        #             st.dataframe(df.iloc[-1:][['block_number','type','sellToken','sellTokenAmount','buyToken','balanceOfBaseToken','balanceOfTargetToken']])
+        #         sleep(3)
