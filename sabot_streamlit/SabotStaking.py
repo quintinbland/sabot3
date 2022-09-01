@@ -64,7 +64,6 @@ df = get_df()
 
 st.set_page_config(layout="wide", page_title="Sabot")
 
-# TODO: Create Variable for sabot logo to use on each page
 with st.container():
     logo_col, title_col = st.columns([25,100])
     with logo_col:

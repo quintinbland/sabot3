@@ -11,6 +11,8 @@ from mnemonic import Mnemonic
 from pathlib import Path
 from st_functions import st_button, load_css
 from PIL import Image
+from time import sleep
+from datetime import datetime
 
 
 load_dotenv()
@@ -20,8 +22,9 @@ def get_addresses():
     addresses = {
         "usdt_address": os.getenv("USDT_ADDRESS"),
         "susd_address": os.getenv("SUSD_ADDRESS"),
-        "sabot_staking_contract_address": os.getenv("SABOT_STAKING_BASE_CONTRACT_ADDRESS"),
-        "clog_address": os.getenv("CLOG_CONTRACT_ADDRESS"),
+        "sabot_staking_contract_address": os.getenv("SABOT_SWAP_ADDRESS"),
+        "sabotstaking_address": os.getenv("SABOT_SWAP_ADDRESS"),
+        "clog_address": os.getenv("CLOG_ADDRESS"),
     }
     return addresses
 
@@ -79,7 +82,7 @@ def generate_account(address):
 @st.cache
 def get_sabot_staking_abi():
     abi = None
-    with open(Path(os.getenv("SABOT_STAKING_ABI_FILE")),'r') as abi_file:
+    with open(Path(os.getenv("SABOTSTAKING_ABI")),'r') as abi_file:
         abi = json.load(abi_file) 
         st.session_state["sabot_staking_abi"] = abi
     return st.session_state["sabot_staking_abi"]
@@ -127,17 +130,18 @@ def stake(amount):
         receipt = get_w3().eth.getTransactionReceipt(tx_hash)
 
         approval_event = usdt_contract.events.Approval().processReceipt(receipt)[0]
+        # block_number = sabot_staking_contract.events.Staked().processReceipt(receipt)[1]
         if approval_event is not None and "event" in approval_event and approval_event["event"]=="Approval":
             # st.write(f"Approval of {usdt_in_decimals}")
             # print(approval_event)
         
             # call staking method, pass in approved amount and USDT contract
             tx_hash = sabot_staking_contract.functions.stakeTokens(usdt_in_decimals, usdt_address).transact({'from': account.address , 'gas': 30000000})
-            print(tx_hash)
+            # print(tx_hash)
             receipt = get_w3().eth.getTransactionReceipt(tx_hash)
 
             # After approval, issue CLOG 
-
+            # block_number = sabot_staking_contract.events.Staked().processReceipt(receipt)[1]
             stake_event = sabot_staking_contract.events.Staked().processReceipt(receipt)[0]
             print(f'Stake event: {stake_event}')
             if stake_event is not None and "event" in stake_event and stake_event["event"] =="Staked":
@@ -151,59 +155,91 @@ def stake(amount):
         print(err)
 
 
+st.session_state['model_profit']=False
+
+
+def get_df():
+    block_number = get_w3().eth.get_block('latest')['number']
+    print(block_number)
+    usdt_decimals=6
+    susd_decimals=18
+    df = pd.read_csv('data/sabot_events.log')
+    df = df[df['type']=='Swapped']
+    df['block_number']=block_number
+    return df 
+
+def get_latest():
+    latest = df.iloc[-1,:]
+    usdt_decimals=6
+    susd_decimals=18
+    # portfolio_value = latest['balanceOfBaseToken']/10**usdt_decimals + latest['balanceOfTargetToken']/10**susd_decimals
+    if 'model_profit' in st.session_state and st.session_state['model_profit']:
+        portfolio_value=0
+        if 'portfolio_value' in st.session_state:
+            portfolio_value = st.session_state['portfolio_value']
+        if portfolio_value == 0:
+            portfolio_value = 1000
+        portfolio_value = portfolio_value*1.015
+        st.session_state['portfolio_value'] = portfolio_value
+    else:
+        portfolio_value = latest['balanceOfBaseToken']/10**usdt_decimals + latest['balanceOfTargetToken']/10**susd_decimals
+        st.session_state['portfolio_value']=portfolio_value
+    clog_price=portfolio_value / latest['utilityTokenTotalSupply']
+    return clog_price,latest['utilityTokenTotalSupply'],portfolio_value,latest['block_number']
+df = get_df()
+
+
 # ************* Streamlit View Below ***********************
 
 st.set_page_config(layout="wide", page_title="Sabot")
 
-# TODO: Create Variable for sabot logo to use on each page
+
 with st.container():
     logo_col, title_col = st.columns([25,100])
     with logo_col:
-        st.image("images\sabot_logo.png", width=150)
+        st.image("images/sabot_logo.png", width=150)
     with title_col:
         st.markdown('<div><span style="font-size: 56px; font-weight: 700; position: relative; top: 20px;">SaBot</span></div>', 
         unsafe_allow_html=True)
 
-# sidebar_logo = st.sidebar.image("images\sabot_logo.png", width=75) 
 
-roadmap, solution, tokenomics, staking, automated_trading, whats_next, devs = st.tabs(["Roadmap", "Solution", "Tokenomics", "Staking", "Automated Trading", "What's Next","Developers"])
+roadmap, solution, tokenomics, staking, dashboard, whats_next, devs = st.tabs(["Roadmap", "Solution", "Tokenomics", "Staking", "Dashboard", "What's Next","Developers"])
 
 with roadmap:
-    # implement columns for each container - yanick has the vision
     with st.container():
         st.title("Evolution of SaBot")
-        st.header("Project 1: StableOps")
-        st.markdown("---")
-        st.write("Quantitative anaylsis demonstrating that arbitrage trading of stable coin volatility could be profitable.")
-        st.write("image of volatile stable coins. 'overlapping coin prices' ")
-        st.write("sharpe ratio image")
+    col1, col2 = st.columns(2)
 
-    with st.container():
-        st.header("Project 2: SaBot")
+    with col1:
+        st.markdown("<h3 style='text-align: left; color: light grey;'>PROJECT 1 | StableOps</h3>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: left; color: light grey;'>Quantitative anaylsis demonstrating that arbitrage trading of stable coin volatility could be profitable.</p>", unsafe_allow_html=True)
         st.markdown("---")
-        st.write("Demonstrated that ML models could be leveraged to implement a successful automated arbitrage trading strategy.")
-        st.write("pickle rick bot, consistent positive return images")
+        st.image("./images/sabot_project_01_720.png")
 
-    with st.container():
-        st.header("Project 3: SaBot Staking Pool")
+    with col2:
+        st.markdown("<h3 style='text-align: left; color: light grey;'>PROJECT 2 | SaBot</h3>", unsafe_allow_html=True)
+        st.markdown("Demonstrated that ML models could be leveraged to implement a successful automated arbitrage trading strategy.")
         st.markdown("---")
-        st.write("Leveraging the blockchain to realize a secure, low cost and scalable solution for stable coin arbitrage trading.")
-        st.write("Why a pool? need sufficient volume to combat high fees. ")
-        st.write("Integrated web3 applications to work with SaBot. Creating a trustless experience for participants to interact with the bot on-chain")
-        st.write("Vitalik would be proud")
-        st.write("DeFi and Low Cost, access to a 4bps trading platform")
+        st.image("./images/sabot_project_02_720.png")
 
-        st.subheader("Benefits of using blockchain: ")
-        st.markdown("""
-        * Ability to directly use low cost DEXs with appropriate liquidity.
-        * Ability to implement a scalable DeFi solution that allows crypto users to securely pool funds in a trustless manner.
-            * Auditable contract code
-            * Auditable transaction
-            * Full transparency
-            * Uncensorable
-            * No middleman
-            * Utility token to manage participant ownership stake
-        """)
+    st.markdown("---")
+    st.markdown("<h3 style='text-align: left; color: light grey;'>PROJECT 3 | SaBot Staking Pool</h3>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: left; color: light grey;'>Leveraging the blockchain to realize a secure, low cost and scalable solution for stable coin arbitrage trading.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: left; color: light grey;'>Integrated web3 applications to work with SaBot.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: left; color: light grey;'>Creating a trustless experience for participants to interact with the bot on-chain.</p>", unsafe_allow_html=True)
+    st.text(" ")
+    st.text(" ")
+    st.text(" ")
+    st.markdown("<h3 style='text-align: left; color: light grey;'>Benefits of Using Blockchain Technology</h3>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: left; color: light grey;'>Ability to directly use low cost DEXs with appropriate liquidity.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: left; color: light grey;'>Ability to implement a scalable DeFi solution that allows crypto users to securely pool funds in a trustless manner.</p>", unsafe_allow_html=True)
+    st.markdown("<li style='text-align: left; color: light grey;'>Auditable contract code.</li>", unsafe_allow_html=True)
+    st.markdown("<li style='text-align: left; color: light grey;'>Auditable transaction.</li>", unsafe_allow_html=True)
+    st.markdown("<li style='text-align: left; color: light grey;'>Full transparency.</li>", unsafe_allow_html=True)
+    st.markdown("<li style='text-align: left; color: light grey;'>Uncensorable.</li>", unsafe_allow_html=True)
+    st.markdown("<li style='text-align: left; color: light grey;'>No middleman.</li>", unsafe_allow_html=True)
+    st.markdown("<li style='text-align: left; color: light grey;'>Utility token to manage participant ownership stake.</li>", unsafe_allow_html=True)
+
 
 
 with solution:
@@ -248,14 +284,20 @@ with tokenomics:
         """)
 
 with staking:
-    initial_balance_usdt = 0
-    initial_balance_clog = 0
     clog_abi = get_clog_abi()
     clog_address = get_addresses()["clog_address"]
     clog_contract = get_w3().eth.contract(address = clog_address, abi = clog_abi)
     usdt_abi = get_usdt_abi()
     usdt_address = get_addresses()["usdt_address"]
     usdt_contract = get_w3().eth.contract(address=usdt_address, abi=usdt_abi)
+    sabot_staking_abi = get_sabot_staking_abi()
+    sabot_staking_address = get_addresses()["sabot_staking_contract_address"]
+    sabot_staking_contract = get_w3().eth.contract(address=sabot_staking_address, abi=sabot_staking_abi)
+    # usdt_decimals = usdt_contract.functions.decimals().call()
+    # usdt_in_decimals = int(amount * (10**usdt_decimals))
+    # tx_hash = usdt_contract.functions.approve(sabot_staking_address, usdt_in_decimals).transact({'from': account.address , 'gas': 3000000})
+    # receipt = get_w3().eth.getTransactionReceipt(tx_hash)
+    # block_number = sabot_staking_contract.events.Staked().processReceipt(receipt)[0]['blockNumber']
 
     with st.container():
         st.header("Staking")
@@ -274,15 +316,15 @@ with staking:
                     del st.session_state["account"]
                 account = generate_account(user_wallet)
 
-                # right_col.metric("Wallet Address:")
+                right_col.metric(f"Connected wallet: ", user_wallet)
 
                 if account is None:
                     st.write(f"Unable to connect to {account}.")
                 else:
                     st.write("Connected successfully")               
                     st.session_state["account"] = account
-                    usdt_balance = usdt_contract.functions.balanceOf(account.address).call()
-                    clog_balance = clog_contract.functions.balanceOf(account.address).call()
+                    usdt_balance = usdt_contract.functions.balanceOf(user_wallet).call()
+                    clog_balance = clog_contract.functions.balanceOf(user_wallet).call()
                     with right_col:
                         right_col.metric("USDT balance", usdt_balance / 10**18)
                         right_col.metric("Clog balance", clog_balance / 10**18)
@@ -293,78 +335,11 @@ with staking:
                     usdt_stake_amount = st.text_input("Enter amount of USDT to stake")
                     if st.button("Stake"):
                         stake(float(usdt_stake_amount))
-                        usdt_balance = usdt_contract.functions.balanceOf(st.session_state["account"].address).call()
-                        clog_balance = clog_contract.functions.balanceOf(st.session_state["account"].address).call()
+                        usdt_balance = usdt_contract.functions.balanceOf(user_wallet).call()
+                        clog_balance = clog_contract.functions.balanceOf(user_wallet).call()
                         right_col.metric("USDT balance after stake", usdt_balance / 10**18)
                         right_col.metric("Clog balance after stake", clog_balance / 10**18)
 
-
-with automated_trading:
-    with st.container():
-        st.header("Trading Dashboard")
-        st.markdown("Bot is now funded, lets trade!")
-        # st.metric("")
-        # st.metric("")
-        # st.metric("")
-        # st.metric("")
-        # st.metric("")
-        # 2 rows with three metrics on the top of page
-        st.checkbox("Model Profit")
-        # we've turned our bot into a web3 app that is sending transactions to blockchain
-        # table in 2 st.metric() and a column side by side
-        # record count of automated transactions, as we talk, the transaction number should be ticking up
-        # time of bot decision.
-        # show log records
-        # metric : latest transaction hash find current block # from Stake event "event"
-
-        # add a slider for "model profitability"
-        # shows impact on portfolio value and token price
-
-        # we can talk about how the bot is actively communicating transaction directions to the chain. this is what will impact liquidity curve pool
-     #, initial_sidebar_state="auto")
-
-    with open('style2.css') as f:
-        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-
-    st.title("CLOG Price Chart (CLOG/USD)")
-
-    # Row A
-    a1, a2, a3, a4 = st.columns(4)
-    a1.metric("CLOG Value", "10.00$")
-    a2.metric("Amount of CLOGS", "1,000")
-    a3.metric("Portfolio Total Value", "5,322$")
-    a4.metric("Portfolio Return", "11.00%")
-
-
-    tab1, tab2, tab3 = st.tabs(["24hrs", "7days", "30days"])
-
-    with st.container():
-        st.write("This is inside the container")
-
-        with tab1:
-            st.header("Historical Account Value")
-
-            # You can call any Streamlit command, including custom components:
-            st.area_chart(np.random.randn(50, 1))
-
-        with tab2:
-            st.header("Historical Account Value")
-            # You can call any Streamlit command, including custom components:
-            st.area_chart(np.random.randn(100, 1))
-
-        with tab3:
-            st.header("Historical Account Value")
-            # You can call any Streamlit command, including custom components:
-            st.area_chart(np.random.randn(150, 1))
-
-
-    data = pd.read_csv("../data/sabot_events.log")
-
-    chart_data = pd.DataFrame(data, columns=["time", "sellTokenAmount"])
-    chart_data_clean = chart_data.dropna()
-    st.area_chart(chart_data_clean)
-
-    # st.write(df_data)
         
 with whats_next:
     with st.container():
@@ -387,25 +362,61 @@ with whats_next:
 
 with devs:
     with st.container():
-        st.header("Developers")
-        st.subheader("Connect with the team!")
-        load_css()
+        st.header("The Saboteurs")
 
-        col1, col2, col3 = st.columns(3)
-        # col2("./images/sabot_logo.png")
+        st.markdown("---")
 
+        col1, col2, col3, col4, col5 = st.columns(5)
         iconsize = 20
 
-        # add in links for github/linked-in profiles 
-        st.subheader("Quintin Bland")
-        st_button("linkedin", "https://www.linkedin.com/in/quintin-bland-a2b94310b/", "Follow me on LinkedIn", iconsize)
-        st.subheader("Kevin Corstorphine")
-        st_button("linkedin", "https://www.linkedin.com/in/kevin-corstorphine-9020a7113/", "Follow me on LinkedIn", iconsize)
-        st.subheader("John Gruenewald")
-        st_button("linkedin", "https://www.linkedin.com/in/jhgruenewald/", "Follow me on LinkedIn", iconsize)
-        st.subheader("Martin Smith")
-        st_button("linkedin", "https://www.linkedin.com/in/smithmartinp/", "Follow me on LinkedIn", iconsize)
-        st.subheader("Yanick Wilisky")
-        st_button("linkedin", "https://www.linkedin.com/in/yanickwilisky/", "Follow me on LinkedIn", iconsize)
+        with col1:
+            st.header("Quintin Bland")
+            st.image("./images/Team/Quintin_Bland_bw.png")
+            st_button("linkedin", "https://www.linkedin.com/in/quintin-bland-a2b94310b/", "LinkedIn", iconsize)
 
-st.markdown("---")
+        with col2:
+            st.header("Kevin Corstorphine")
+            st.image("./images/Team/Kevin_Corstorphine_bw.png")
+            st_button("linkedin", "https://www.linkedin.com/in/kevin-corstorphine-9020a7113/", "LinkedIn", iconsize)
+
+        with col3:
+            st.header("John Gruenewald")
+            st.image("./images/Team/John_Gruenewald_bw.png")
+            st_button("linkedin", "https://www.linkedin.com/in/jhgruenewald/", "LinkedIn", iconsize)
+
+        with col4:
+            st.header("Martin Smith")
+            st.image("./images/Team/Martin_Smith_bw.png")
+            st_button("linkedin", "https://www.linkedin.com/in/smithmartinp/", "LinkedIn", iconsize)
+
+        with col5:
+            st.header("Yanick Wilisky")
+            st.image("./images/Team/Yanick_Wilisky_bw.png")
+            st_button("linkedin", "https://www.linkedin.com/in/yanickwilisky/", "LinkedIn", iconsize)
+
+
+
+
+with dashboard:
+    with st.container():
+        with open('sabot_streamlit/style2.css') as f:
+            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+        st.session_state['model_profit']=False
+        st.markdown("# Trading Dashboard")
+        st.markdown("##### Bot is now funded, lets trade!")
+        model_profit=st.checkbox("Model Profit")
+        st.session_state['model_profit']=model_profit
+        with st.empty():
+            done = False
+            loop = 100
+            while not done:
+                df = get_df()
+                with st.container():
+                    a1, a2, a3, a4 = st.columns(4)
+                    clog_price,clog_supply,portfolio_value,block_number=get_latest()
+                    a1.metric("CLOG Price", clog_price)
+                    a2.metric("CLOGs in circulatiuon", clog_supply)
+                    a3.metric("Total Portfolio Value", portfolio_value)
+                    a4.metric("Current Block Number", block_number)
+                    st.dataframe(df.iloc[-1:][['block_number','type','sellToken','sellTokenAmount','buyToken','balanceOfBaseToken','balanceOfTargetToken']])
+                sleep(3)
