@@ -72,7 +72,7 @@ The `bot` is able to send trade orders to the `Staking` Smart contract and the `
 
 ---
 
-### SCENARIO | Tokenomics  (Not MVP)
+### SCENARIO | Tokenomics 
 
 #### **Objective** 
 Demonstrate that the `CLOG` is effective at:
@@ -163,11 +163,11 @@ The solution consists of several components which are identified below:
 ## DEPLOYMENT AND TESTING
 Since this solution consists of `Web3` applications and and smart contracts, `Ganache` is used as the test environment in the following section.
 
-### 1. Allocate Wallet Addresses   (John)
+### 1. Allocate Wallet Addresses 
 
 *a table that lists how many of the ganache wallets will be used and for what purpose*
 
-### 2. Deploy Test Assets          (John)
+### 2. Deploy Test Assets         
 If deploying in a test environment, deploy dependencies using **DeployTestAssets.sol**.
 
 *Instructions needed, additionally, video even better*
@@ -238,7 +238,7 @@ If deploying in a test environment, deploy dependencies using **DeployTestAssets
 
 6. Congratulation! You've successfuly deployed the `DeploySabotStakingAsset` contract.
 
-### 4. Configure REMIX IDE         (Yanick)
+### 4. Configure REMIX IDE       
 *Instructions on how to configure REMIX IDE for Testing*
 
 1. Select the `"SabotStakingV1.sol"` contract in the Remix IDE.
@@ -253,14 +253,14 @@ If deploying in a test environment, deploy dependencies using **DeployTestAssets
 7. Open the contract and click on the `name` button.
 8. The name should display `USDT ==> sUSD | Clog`
 
-### 5. Configure participant wallets   (Yanick)
+### 5. Configure participant wallets
 *Instructions on how to connect participant wallets, e.g. adding USDT sUSD and CLOG tokens, video even better*
 
 ---
 
 ### TEST SCENARIOS
 
-#### Participant Staking      (Quintin)
+#### Participant Staking     
 *Instructions / demo on how a participant stakes USDT in order to join the pool and receives CLOG, video even better**
 
 Step 1: Navigate to SaBot Staking UI
@@ -272,7 +272,7 @@ Step 3: Select amount of USDT you'd like to stake
 Step 4: Check balances in your account 
 
 
-#### Automated arbitrage trading    (John)
+#### Automated arbitrage trading  
 *Instructions on how to set up the monitor and / demo showing automated arbitrage trading, video even better**
 
 ---
