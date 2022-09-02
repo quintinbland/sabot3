@@ -263,15 +263,13 @@ If deploying in a test environment, deploy dependencies using **DeployTestAssets
 #### Participant Staking      (Quintin)
 *Instructions / demo on how a participant stakes USDT in order to join the pool and receives CLOG, video even better**
 
-Step 1: Check
+Step 1: Navigate to SaBot Staking UI
 
-Step 2: Navigate to SaBot Staking UI
+Step 2:Enter your wallet address
 
-Step 3:Enter your wallet address
+Step 3: Select amount of USDT you'd like to stake
 
-Step 4: Select amount of USDT you'd like to stake
-
-Step 5: Check balances in your account 
+Step 4: Check balances in your account 
 
 
 #### Automated arbitrage trading    (John)
@@ -299,33 +297,3 @@ An exploration of costs was conducted.  At the time of the analysis
 
 
 ---
-
-```
-wallet 1: 0x753f95da5E01A463c0952F81C3a4366e405019b1 - deployTestAssets(owns USDT, SUSD, curvePool) deploySabotStakingAssets(admin of Clog and SabotStaking)
-wallet 2: 0x59fe7E0c4303125Ee5e1fA6248723BF017668835
-wallet 3: 0x5771e5c030Aa3594E3385eBcdC2c3ea50A27a24f
-wallets to initialize: ["0x753f95da5E01A463c0952F81C3a4366e405019b1","0x59fe7E0c4303125Ee5e1fA6248723BF017668835","0x5771e5c030Aa3594E3385eBcdC2c3ea50A27a24f"]
-
-botWallet: 0x1c4b2bBBf8F31786Cd1de8c160A44De1152A6375   (in deployment configured to be SABOT_BOT_ROLE -> swap())
-usdt: 0x563f1aAca7578AA493140d60be939d6bE9FA92De
-susd: 0x3A5608A6F2B4bf13D98629Ca2207D4d2f674287F
-curve pool: 0x776F4B255b8936963Fa1e9478063bA0E79486D50
-clog: 
-sabotStaking: 
-```
-
-```
-Yanick's Cheat Sheet
-wallet 1: 0x1dC8c5Da5367E24Aa40AC6ed52d8DC0d442D6E08 - deployTestAssets(owns USDT, SUSD, curvePool) deploySabotStakingAssets(admin of Clog and SabotStaking)
-wallet 2: 0x1BDFEa7eB5405Ec90188f8dF38Fa1Ed60faA03f6
-wallet 3: 0xb5B9458B59532a46510D07715d4663a2b4281c90
-wallets to initialize: ["0x9aDdD9779374F638DFaac82A34B6c9E267839cE4","0x1BDFEa7eB5405Ec90188f8dF38Fa1Ed60faA03f6","0xb5B9458B59532a46510D07715d4663a2b4281c90"]
-
-botWallet: 0x1BDFEa7eB5405Ec90188f8dF38Fa1Ed60faA03f6   (in deployment configured to be SABOT_BOT_ROLE -> swap())
-usdt: 0x7D8DDEd54194F7e2c40169a8B8Ffe39dCdDd4F91
-susd: 0xBb02EDA41d8bB1965ae7a8e8dAC194DCc0A85200
-curve pool: 0x6bC3a60F1660E052B33FeA369aCA144CB329f13F
-clog: 0xcF712EA0FFa7F71BAaed761dA109784277A89290
-sabotStaking: 0x3e1EE47E860499803273e9769789c26573e7c378
-```
-deploysabotstakingasset wallet - 0xE16c17Fae77B6D8D630C641EcF927ed283C57FA9
